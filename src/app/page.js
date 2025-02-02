@@ -1,5 +1,5 @@
 import { ModeToggle } from "@/components/ModeToggle";
-import SelectPlan from "@/screens/Netflix/SelectPlan";
+import HomePage from "@/screens/Netflix/HomePage";
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
       <div className="fixed top-8 right-8 z-50">
         <ModeToggle />
       </div>
-      <SelectPlan />
+      <HomePage />
     </div>
   );
 }
