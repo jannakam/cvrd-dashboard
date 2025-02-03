@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation';
 import { StoreContent } from '@/components/StoreContent';
 import { CartProvider } from '@/contexts/CartContext';
 
-export default function StorePage({ params }) {
-  const { id } = params;
+export default async function StorePage({ params }) {
+  const { id } = await params;
   const store = stores.find((s) => s.id === id);
 
   if (!store) {

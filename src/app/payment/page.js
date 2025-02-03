@@ -1,13 +1,15 @@
-import PaymentGateway from '@/screens/PaymentGateway';
-import { ModeToggle } from "@/components/ModeToggle";
+import PaymentGateway from '@/components/payment/PaymentGateway';
+import { ModeToggle } from '@/components/ModeToggle';
+import { Footer } from '@/components/Footer';
 
 export default function PaymentPage() {
   return (
-    <div className="min-h-screen w-full font-[family-name:var(--font-geist-sans)]">
-      <div className="fixed top-8 right-8 z-50">
+    <div className="flex min-h-screen w-full flex-col justify-center font-[family-name:var(--font-geist-sans)]">
+      <div className="fixed right-8 top-8 z-50">
         <ModeToggle />
       </div>
       <PaymentGateway />
+      <Footer />
     </div>
   );
-} 
+}

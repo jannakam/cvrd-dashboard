@@ -503,4 +503,39 @@ export const stores = [
       },
     ],
   },
+  {
+    id: 'human-pancreas',
+    name: 'Human Pancreas',
+    category: 'Food',
+    description: 'Best cookies and baked goods in the world',
+    items: [
+      {
+        id: 1,
+        name: 'Hot chocolate cookies',
+        price: 999.5,
+        category: 'Cookies',
+        image:
+          'https://cdn.discordapp.com/attachments/1298946926691225600/1335886742812622900/IMG_6340.jpg?ex=67a1ccfb&is=67a07b7b&hm=d4ed0d8d97d3a13dd0f37a4b200e7730360c658039fe4230e95ddc4d9279a571&',
+        stock: 15,
+      },
+      {
+        id: 2,
+        name: 'Almond croissant cookies',
+        price: 99.5,
+        category: 'Cookies',
+        image:
+          'https://cdn.discordapp.com/attachments/1298946926691225600/1335886741143425055/IMG_7054_jpg.jpg?ex=67a1ccfa&is=67a07b7a&hm=ba58bc4513984e127362494c756d3bb40d06ee8832d90ffc5859939af79a6431&',
+        stock: 15,
+      },
+      {
+        id: 3,
+        name: 'snickerdoodle protein pancakes',
+        price: 9999.0,
+        category: 'Cookies',
+        image:
+          'https://d.rapidcdn.app/snapinsta?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3Njb250ZW50LWF0bDMtMi5jZG5pbnN0YWdyYW0uY29tL3YvdDUxLjI5MzUwLTE1LzQ1OTM2ODU5OV8xMDIxOTQwNzk2MzkxNTE0XzU0OTg4MzEyMDMzOTQ3MDM5ODJfbi5qcGc_c3RwPWRzdC1qcGdfZTM1X3A2NDB4NjQwX3NoMC4wOF90dDYmZWZnPWV5SjJaVzVqYjJSbFgzUmhaeUk2SW1sdFlXZGxYM1Z5YkdkbGJpNHhORFF3ZURFNE1EQXVjMlJ5TG1ZeU9UTTFNQzVrWldaaGRXeDBYMmx0WVdkbEluMCZfbmNfaHQ9c2NvbnRlbnQtYXRsMy0yLmNkbmluc3RhZ3JhbS5jb20mX25jX2NhdD0xMDImX25jX29oYz1sbFg0VWp1cjRkOFE3a052Z0dkSjYxcyZfbmNfZ2lkPWNiMTJiMjM4ODVjMzRhMTZhMWUwMjQ5NzVkMzdlY2I2JmVkbT1BUHMxN0NVQkFBQUEmY2NiPTctNSZvaD0wMF9BWURnTGNybVhDdkgtYzh4dUdRN3Q0anVzdHJFX1VTQUtPdExHbEdXVFNGQmZRJm9lPTY3QTY2MTI1Jl9uY19zaWQ9MTBkMTNiIiwiZmlsZW5hbWUiOiJTbmFwaW5zdC5hcHBfdGh1bWJfNDU5MzY4NTk5XzEwMjE5NDA3OTYzOTE1MTRfNTQ5ODgzMTIwMzM5NDcwMzk4Ml9uLmpwZyJ9.A7FjYXQ_hRGzWilnUEj2w5eN6IODQkHegGO2gb_dsig',
+        stock: 15,
+      },
+    ],
+  },
 ];
