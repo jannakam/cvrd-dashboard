@@ -4,6 +4,7 @@ export const stores = [
     name: 'Fashion Hub',
     category: 'Clothing',
     description: 'Contemporary fashion for all occasions',
+    logo: 'https://images.unsplash.com/photo-1585914924626-15adac1e6402?w=500',
     items: [
       {
         id: 1,
@@ -60,6 +61,7 @@ export const stores = [
     name: 'Tech Zone',
     category: 'Electronics',
     description: 'Latest gadgets and tech accessories',
+    logo: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=500',
     items: [
       {
         id: 1,
@@ -116,6 +118,7 @@ export const stores = [
     name: 'Home & Decor',
     category: 'Home',
     description: 'Beautiful pieces for your living space',
+    logo: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500',
     items: [
       {
         id: 1,
@@ -172,6 +175,7 @@ export const stores = [
     name: 'Sports & Fitness',
     category: 'Sports',
     description: 'Premium sports equipment and fitness gear',
+    logo: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500',
     items: [
       {
         id: 1,
@@ -228,6 +232,7 @@ export const stores = [
     name: 'Beauty Essentials',
     category: 'Beauty',
     description: 'Premium skincare and beauty products',
+    logo: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500',
     items: [
       {
         id: 1,
@@ -284,6 +289,7 @@ export const stores = [
     name: 'Gourmet Kitchen',
     category: 'Kitchen',
     description: 'Premium kitchenware and cooking essentials',
+    logo: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=500',
     items: [
       {
         id: 1,
@@ -340,6 +346,7 @@ export const stores = [
     name: 'Urban Fashion',
     category: 'Clothing',
     description: 'Street style and urban fashion trends',
+    logo: 'https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=500',
     items: [
       {
         id: 1,
@@ -396,6 +403,7 @@ export const stores = [
     name: 'Smart Tech',
     category: 'Electronics',
     description: 'Smart home devices and automation',
+    logo: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=500',
     items: [
       {
         id: 1,
@@ -452,6 +460,7 @@ export const stores = [
     name: 'Modern Living',
     category: 'Home',
     description: 'Contemporary furniture and home essentials',
+    logo: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=500',
     items: [
       {
         id: 1,
@@ -508,6 +517,7 @@ export const stores = [
     name: 'Human Pancreas',
     category: 'Food',
     description: 'Best cookies and baked goods in the world',
+    logo: 'https://cdn.discordapp.com/attachments/1298946926691225600/1335887177095319583/image.jpg?ex=67a1cd62&is=67a07be2&hm=c76e3057a9ffd155c998589f3a07fd896180048743da2188cc12b4a0238b231b&',
     items: [
       {
         id: 1,

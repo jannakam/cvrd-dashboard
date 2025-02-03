@@ -3,18 +3,27 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Footer } from '@/components/Footer';
+import Image from 'next/image';
 
 function StoresPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="container mx-auto py-10 flex-1">
-        <h1 className="text-4xl font-bold mb-8">Our Stores</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="flex min-h-screen flex-col">
+      <div className="container mx-auto flex-1 py-10">
+        <h1 className="mb-8 text-4xl font-bold">Our Stores</h1>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {stores.map((store) => (
             <Link href={`/stores/${store.id}`} key={store.id}>
-              <Card className="hover:shadow-lg transition-shadow">
+              <Card className="group overflow-hidden transition-shadow hover:shadow-lg">
+                <div className="relative aspect-[3/2] overflow-hidden">
+                  <Image
+                    src={store.logo}
+                    alt={`${store.name} logo`}
+                    fill
+                    className="object-cover transition-transform group-hover:scale-105"
+                  />
+                </div>
                 <CardHeader>
-                  <div className="flex justify-between items-start">
+                  <div className="flex items-start justify-between">
                     <div>
                       <CardTitle className="text-2xl">{store.name}</CardTitle>
                       <CardDescription className="mt-2">{store.description}</CardDescription>
