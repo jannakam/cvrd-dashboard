@@ -1,64 +1,56 @@
 export const formatCardNumber = (value) => {
-  const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-  const matches = v.match(/\d{4,16}/g);
-  const match = (matches && matches[0]) || '';
-  const parts = [];
-
-  for (let i = 0, len = match.length; i < len; i += 4) {
-    parts.push(match.substring(i, i + 4));
-  }
-
-  if (parts.length) {
-    return parts.join(' ');
-  }
-  return value;
+  if (!value) return value;
+  const cleanValue = value.replace(/\D/g, '');
+  const groups = cleanValue.match(/.{1,4}/g) || [];
+  return groups.join(' ');
 };
 
 export const formatExpiryDate = (value) => {
+  if (!value) return value;
+  
+  // Remove any non-digit characters
   const cleanValue = value.replace(/\D/g, '');
-
-  if (value.length < expiryDate.length && value.length === 2) {
-    return cleanValue.slice(0, -1);
+  
+  // Handle backspace when removing the forward slash
+  if (cleanValue.length <= 2) {
+    return cleanValue;
   }
-
-  if (cleanValue.length >= 2) {
-    const month = cleanValue.slice(0, 2);
-    const year = cleanValue.slice(2, 4);
-
-    if (parseInt(month) > 12) {
-      return '12' + (year ? '/' + year : '');
-    }
-    if (parseInt(month) === 0) {
-      return '01' + (year ? '/' + year : '');
-    }
-
-    return month + (cleanValue.length > 2 ? '/' + year : '');
-  }
-
-  return cleanValue;
+  
+  // Format as MM/YY
+  return `${cleanValue.slice(0, 2)}/${cleanValue.slice(2, 4)}`;
 };
 
-export const formatPrice = (price) => {
-  return new Intl.NumberFormat('en-KW', {
+export const formatPrice = (value) => {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'KWD',
-  }).format(price);
+    currency: 'USD',
+  }).format(value);
 };
 
 export const validateCardPayment = (cardNumber, expiryDate, cvv) => {
-  const cleanCardNumber = cardNumber.replace(/\s/g, '');
-  const isCardNumberValid = cleanCardNumber.length >= 14 && cleanCardNumber.length <= 16;
-  const isExpiryValid = expiryDate.length === 5;
-  const isCvvValid = cvv.length === 3;
+  const cardNumberClean = cardNumber.replace(/\D/g, '');
+  const expiryClean = expiryDate.replace(/\D/g, '');
+  const cvvClean = cvv.replace(/\D/g, '');
+
+  // Basic validation rules
+  const isCardNumberValid = cardNumberClean.length >= 15 && cardNumberClean.length <= 16;
+  const isExpiryValid = expiryClean.length === 4;
+  const isCvvValid = cvvClean.length >= 3 && cvvClean.length <= 4;
 
   return isCardNumberValid && isExpiryValid && isCvvValid;
 };
 
 export const validateCVRDPayment = (cardNumber, expiryDate, cvv, selectedBank, cardPrefix) => {
-  const cleanCardNumber = cardNumber.replace(/\s/g, '');
-  const isCardNumberValid = cardPrefix.length === 6 && cleanCardNumber.length === 12;
-  const isExpiryValid = expiryDate.length === 5;
-  const isCvvValid = cvv.length === 3;
+  const cardNumberClean = cardNumber.replace(/\D/g, '');
+  const expiryClean = expiryDate.replace(/\D/g, '');
+  const cvvClean = cvv.replace(/\D/g, '');
 
-  return isCardNumberValid && isExpiryValid && isCvvValid && selectedBank && cardPrefix;
+  // Basic validation rules
+  const isCardNumberValid = cardNumberClean.length >= 15 && cardNumberClean.length <= 16;
+  const isExpiryValid = expiryClean.length === 4;
+  const isCvvValid = cvvClean.length >= 3 && cvvClean.length <= 4;
+  const isBankSelected = !!selectedBank;
+  const isPrefixSelected = !!cardPrefix;
+
+  return isCardNumberValid && isExpiryValid && isCvvValid && isBankSelected && isPrefixSelected;
 };

@@ -10,11 +10,20 @@ import { CardPaymentForm } from '@/components/payment/CardPaymentForm';
 import { PayPalForm } from '@/components/payment/PayPalForm';
 import { CVRDForm } from '@/components/payment/CVRDForm';
 import { formatPrice, validateCardPayment, validateCVRDPayment } from '@/lib/payment-utils';
+import { 
+  saveTransaction, 
+  updateTransactionStatus, 
+  TRANSACTION_STATUS, 
+  TRANSACTION_TYPE,
+  TRANSACTION_CATEGORY 
+} from '@/lib/transaction-storage';
 
 export default function PaymentGateway() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const total = searchParams.get('total') || '0';
+  const service = searchParams.get('service');
+  const plan = searchParams.get('plan');
 
   // Card payment state
   const [cardNumber, setCardNumber] = useState('');
@@ -65,8 +74,77 @@ export default function PaymentGateway() {
     }
 
     setIsProcessing(true);
+    let transaction = null;
 
     try {
+      // Determine if this is a seasonal period
+      const currentDate = new Date();
+      const month = currentDate.getMonth();
+      let seasonalTiming = '';
+      
+      // Basic seasonal detection
+      if (month === 11) seasonalTiming = 'holiday-season';
+      else if (month === 6 || month === 7) seasonalTiming = 'summer-sale';
+      else if (month === 1) seasonalTiming = 'winter-sale';
+      else if (month === 4) seasonalTiming = 'spring-sale';
+
+      // Get subscription details if this is a subscription purchase
+      const subscriptionDetails = service ? {
+        name: service,
+        plan: plan,
+        billingFrequency: plan?.toLowerCase().includes('annual') ? 'annual' : 'monthly'
+      } : null;
+
+      // Create enhanced transaction data
+      const transactionData = {
+        amount: parseFloat(total),
+        currency: 'USD',
+        paymentMethod: activeTab,
+        service,
+        plan,
+        status: TRANSACTION_STATUS.PENDING,
+        type: service ? TRANSACTION_TYPE.SUBSCRIPTION : TRANSACTION_TYPE.STORE_PURCHASE,
+        category: service ? TRANSACTION_CATEGORY.STREAMING : TRANSACTION_CATEGORY.SHOPPING,
+        regularPrice: parseFloat(total), // Add actual regular price if available
+        discountApplied: 0, // Add actual discount if available
+        isRecurring: !!service,
+        frequency: subscriptionDetails?.billingFrequency || 'one-time',
+        itemDetails: service ? [subscriptionDetails] : [], // Add subscription details or store items
+        merchantInfo: {
+          name: service || 'Store Purchase',
+          type: service ? 'streaming-service' : 'retail',
+          platform: 'online',
+          location: 'global'
+        },
+        seasonalTiming,
+        paymentDetails: {
+          ...(activeTab === 'card' && {
+            lastFourDigits: cardNumber.slice(-4),
+            expiryDate,
+            cardType: cardNumber.startsWith('4') ? 'visa' : 
+                     cardNumber.startsWith('5') ? 'mastercard' : 
+                     'other'
+          }),
+          ...(activeTab === 'paypal' && {
+            email: paypalEmail
+          }),
+          ...(activeTab === 'cvrd' && {
+            bank: selectedBank,
+            lastFourDigits: cardNumber.slice(-4),
+            expiryDate
+          })
+        },
+        metadata: {
+          deviceType: 'web',
+          timestamp: new Date().toISOString(),
+          userAgent: navigator.userAgent,
+          ipLocation: 'to-be-implemented' // Would require backend implementation
+        }
+      };
+
+      // Save initial transaction
+      transaction = saveTransaction(transactionData);
+
       // Simulate API call
       await new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -78,6 +156,9 @@ export default function PaymentGateway() {
         }, 1500);
       });
 
+      // Update transaction status to success
+      updateTransactionStatus(transaction.id, TRANSACTION_STATUS.SUCCESS);
+
       toast({
         variant: 'outline',
         title: 'Payment Successful',
@@ -88,6 +169,11 @@ export default function PaymentGateway() {
         redirect('/payment-status?status=success');
       }, 1000);
     } catch (error) {
+      // Update transaction status to failed
+      if (transaction) {
+        updateTransactionStatus(transaction.id, TRANSACTION_STATUS.FAILED);
+      }
+
       toast({
         variant: 'outline',
         title: 'Payment Failed',
