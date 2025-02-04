@@ -1,5 +1,5 @@
-import PaymentStatus from '@/screens/PaymentStatus';
+import PaymentStatus from '@/components/payment/PaymentStatus';
 
 export default function PaymentStatusPage() {
   return <PaymentStatus />;
-} 
+}
