@@ -17,7 +17,7 @@ export const subscriptions = [
     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=1000',
     background_color: 'bg-inherit',
-    categories: ['Movies', 'TV Shows', 'Anime', 'Documentaries'],
+    categories: ['Movies', 'TV Shows', 'Kids', 'Documentaries'],
     ...generateServiceContent('netflix'),
     plans: [
       {
@@ -194,7 +194,7 @@ export const subscriptions = [
     id: 'paramount-plus',
     name: 'Paramount+',
     description: 'Stream live sports, breaking news, and a mountain of entertainment',
-    logo: 'https://upload.wikimedia.org/commons/commons/a/a5/Paramount_Plus.svg',
+    logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1e/Paramount_Global.svg/1200px-Paramount_Global.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=1000',
     background_color: 'bg-blue-800',
     categories: ['Movies', 'TV Shows', 'Sports', 'News'],
