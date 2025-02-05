@@ -8,6 +8,7 @@ import { subscriptions } from '@/data/subscriptions';
 import { ModeToggle } from '@/components/ModeToggle';
 import { Check, Crown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Footer } from '@/components/Footer';
 
 export default function PlanPage() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export default function PlanPage() {
       if (sub) {
         setSubscription(sub);
         // Set the popular plan as default selected
-        const popularPlan = sub.plans.find(p => p.popular);
+        const popularPlan = sub.plans.find((p) => p.popular);
         setSelectedPlan(popularPlan?.name);
       }
     }
@@ -42,36 +43,36 @@ export default function PlanPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex min-h-screen w-full flex-col justify-center font-[family-name:var(--font-geist-sans)]">
+    
+
       {/* Navigation */}
-      <nav className={`fixed top-0 z-40 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-background/60 ${subscription.background_color}`}>
+      <nav
+        className={`fixed top-0 z-40 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-background/60 ${subscription.background_color}`}
+      >
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
             <div className="flex h-8 w-24 items-center justify-center rounded font-bold text-white">
               {subscription.name}
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <ModeToggle />
-          </div>
+          <div className="flex items-center gap-4"></div>
         </div>
       </nav>
 
       {/* Main Content */}
-      <div className="container pt-36">
-        <div className="mx-auto max-w-5xl space-y-10">
-          <div className="text-center mb-20">
+      <div className="container flex flex-col items-center justify-center self-center pt-24">
+        <div className="mx-auto w-full max-w-5xl space-y-20">
+          <div className="mb-20 text-center">
             <h1 className="text-4xl font-bold">Choose Your Plan</h1>
-            <p className="mt-2 text-muted-foreground">
-              Select the perfect plan for your streaming needs
-            </p>
+            <p className="mt-2 text-muted-foreground">Select the perfect plan for your streaming needs</p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid place-items-center gap-6 md:grid-cols-3">
             {subscription.plans.map((plan, index) => (
               <div
                 key={plan.name}
-                className={`min-w-[280px] flex-1 ${index === 1 ? 'md:-mt-4 md:mb-4' : ''}`}
+                className={`w-full max-w-[320px] ${index === 1 ? 'md:-mt-4 md:mb-4' : ''}`}
                 onClick={() => handlePlanSelect(plan.name)}
               >
                 <Card
@@ -86,9 +87,7 @@ export default function PlanPage() {
                   onMouseLeave={() => setHoveredPlan(null)}
                 >
                   {plan.popular && (
-                    <div
-                      className="w-full text-white bg-zinc-900 py-1.5 text-center text-sm font-medium"
-                    >
+                    <div className="w-full bg-zinc-900 py-1.5 text-center text-sm font-medium text-white">
                       <span className="flex items-center justify-center gap-1">
                         <Crown className="h-4 w-4" /> Most Popular
                       </span>
@@ -112,10 +111,10 @@ export default function PlanPage() {
                     </ul>
                     <Button
                       className={cn(
-                        "mt-8 w-full text-white",
+                        'mt-8 w-full text-white',
                         selectedPlan === plan.name
-                          ? `hover:bg-zinc-700 dark:bg-zinc-700 hover:opacity-90`
-                          : "bg-zinc-600 hover:bg-zinc-700 dark:bg-zinc-700 dark:hover:bg-zinc-600"
+                          ? `hover:bg-zinc-700 hover:opacity-90 dark:bg-zinc-700`
+                          : 'bg-zinc-600 hover:bg-zinc-700 dark:bg-zinc-700 dark:hover:bg-zinc-600'
                       )}
                       size="lg"
                       onClick={(e) => {
@@ -137,6 +136,8 @@ export default function PlanPage() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

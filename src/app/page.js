@@ -22,22 +22,22 @@ export default function HomePage() {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 container pt-24 pb-12">
-        <div className="max-w-3xl mx-auto space-y-8">
-          <div className="text-center space-y-4">
+      <main className="container flex flex-1 items-center justify-center pb-12 pt-24 self-center">
+        <div className="w-full max-w-3xl space-y-8">
+          <div className="space-y-4 text-center">
             <h1 className="text-4xl font-bold md:text-6xl">Welcome to CVRD Dashboard</h1>
             <p className="text-lg text-muted-foreground">Choose your destination to get started</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
+          <div className="grid grid-cols-1 gap-6 pt-8 md:grid-cols-2">
             {/* Stores Card */}
-            <Card 
-              className="group cursor-pointer hover:shadow-lg transition-all duration-200"
+            <Card
+              className="group cursor-pointer transition-all duration-200 hover:shadow-lg"
               onClick={() => router.push('/stores')}
             >
-              <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Store className="w-8 h-8 text-primary" />
+              <CardContent className="flex flex-col items-center space-y-4 p-6 text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 transition-transform group-hover:scale-110">
+                  <Store className="h-8 w-8 text-primary" />
                 </div>
                 <div className="space-y-2">
                   <h2 className="text-2xl font-semibold">Stores</h2>
@@ -45,20 +45,18 @@ export default function HomePage() {
                     Browse and manage your favorite retail stores and shopping destinations
                   </p>
                 </div>
-                <Button className="w-full">
-                  View Stores
-                </Button>
+                <Button className="w-full">View Stores</Button>
               </CardContent>
             </Card>
 
             {/* Subscriptions Card */}
-            <Card 
-              className="group cursor-pointer hover:shadow-lg transition-all duration-200"
+            <Card
+              className="group cursor-pointer transition-all duration-200 hover:shadow-lg"
               onClick={() => router.push('/subscriptions')}
             >
-              <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <CreditCard className="w-8 h-8 text-primary" />
+              <CardContent className="flex flex-col items-center space-y-4 p-6 text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 transition-transform group-hover:scale-110">
+                  <CreditCard className="h-8 w-8 text-primary" />
                 </div>
                 <div className="space-y-2">
                   <h2 className="text-2xl font-semibold">Subscriptions</h2>
@@ -66,9 +64,7 @@ export default function HomePage() {
                     Explore and manage your streaming services and digital subscriptions
                   </p>
                 </div>
-                <Button className="w-full">
-                  View Subscriptions
-                </Button>
+                <Button className="w-full">View Subscriptions</Button>
               </CardContent>
             </Card>
           </div>

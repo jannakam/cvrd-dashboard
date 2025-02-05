@@ -12,62 +12,51 @@ import { Footer } from '@/components/Footer';
 
 export default function SubscriptionsPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="flex min-h-screen flex-col bg-background">
       {/* Navigation */}
       <nav className="fixed top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
-            <h1 className="text-xl font-bold sm:text-2xl pl-5">Streaming Services</h1>
+            <h1 className="pl-5 text-xl font-bold sm:text-2xl">Streaming Services</h1>
           </div>
         </div>
       </nav>
 
-      
-
       {/* Main Content */}
-      <div className="container px-4 sm:px-6 pt-24 pb-10 flex-1">
-        <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {subscriptions.map((subscription) => (
-            <Link key={subscription.id} href={`/subscriptions/${subscription.id}`} className="block h-full">
-              <Card className="group h-full overflow-hidden transition-all hover:shadow-lg dark:hover:shadow-primary/10">
-                <div className={cn("relative h-24 sm:h-28", subscription.background_color)}>
-                  <div className="absolute inset-0 flex items-center justify-center p-4">
-                    <img
-                      src={subscription.logo}
-                      alt={subscription.name}
-                      className="h-12 w-auto object-contain"
-                    />
+      <div className="container mx-auto flex-1 px-4 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {subscriptions.map((subscription) => (
+              <Link key={subscription.id} href={`/subscriptions/${subscription.id}`} className="block h-full">
+                <Card className="group h-full overflow-hidden transition-all hover:shadow-lg dark:hover:shadow-primary/10">
+                  <div className={cn('relative h-24 sm:h-28', subscription.background_color)}>
+                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                      <img src={subscription.logo} alt={subscription.name} className="h-12 w-auto object-contain" />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                </div>
-                <CardHeader className="space-y-2">
-                  <CardTitle className="line-clamp-1">{subscription.name}</CardTitle>
-                  <CardDescription className="line-clamp-2">{subscription.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex flex-wrap gap-2">
-                    {subscription.categories.slice(0, 3).map((category) => (
-                      <Badge
-                        key={category}
-                        variant="secondary"
-                        className="rounded-full truncate max-w-[150px]"
-                      >
-                        {category}
-                      </Badge>
-                    ))}
-                    {subscription.categories.length > 3 && (
-                      <Badge
-                        variant="outline"
-                        className="rounded-full"
-                      >
-                        +{subscription.categories.length - 3}
-                      </Badge>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+                  <CardHeader className="space-y-2">
+                    <CardTitle className="line-clamp-1">{subscription.name}</CardTitle>
+                    <CardDescription className="line-clamp-2">{subscription.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex flex-wrap gap-2">
+                      {subscription.categories.slice(0, 3).map((category) => (
+                        <Badge key={category} variant="secondary" className="max-w-[150px] truncate rounded-full">
+                          {category}
+                        </Badge>
+                      ))}
+                      {subscription.categories.length > 3 && (
+                        <Badge variant="outline" className="rounded-full">
+                          +{subscription.categories.length - 3}
+                        </Badge>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
