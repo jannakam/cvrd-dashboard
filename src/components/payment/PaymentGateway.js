@@ -10,12 +10,12 @@ import { CardPaymentForm } from '@/components/payment/CardPaymentForm';
 import { PayPalForm } from '@/components/payment/PayPalForm';
 import { CVRDForm } from '@/components/payment/CVRDForm';
 import { formatPrice, validateCardPayment, validateCVRDPayment } from '@/lib/payment-utils';
-import { 
-  saveTransaction, 
-  updateTransactionStatus, 
-  TRANSACTION_STATUS, 
+import {
+  saveTransaction,
+  updateTransactionStatus,
+  TRANSACTION_STATUS,
   TRANSACTION_TYPE,
-  TRANSACTION_CATEGORY 
+  TRANSACTION_CATEGORY,
 } from '@/lib/transaction-storage';
 
 export default function PaymentGateway() {
@@ -81,7 +81,7 @@ export default function PaymentGateway() {
       const currentDate = new Date();
       const month = currentDate.getMonth();
       let seasonalTiming = '';
-      
+
       // Basic seasonal detection
       if (month === 11) seasonalTiming = 'holiday-season';
       else if (month === 6 || month === 7) seasonalTiming = 'summer-sale';
@@ -89,11 +89,13 @@ export default function PaymentGateway() {
       else if (month === 4) seasonalTiming = 'spring-sale';
 
       // Get subscription details if this is a subscription purchase
-      const subscriptionDetails = service ? {
-        name: service,
-        plan: plan,
-        billingFrequency: plan?.toLowerCase().includes('annual') ? 'annual' : 'monthly'
-      } : null;
+      const subscriptionDetails = service
+        ? {
+            name: service,
+            plan: plan,
+            billingFrequency: plan?.toLowerCase().includes('annual') ? 'annual' : 'monthly',
+          }
+        : null;
 
       // Create enhanced transaction data
       const transactionData = {
@@ -114,45 +116,39 @@ export default function PaymentGateway() {
           name: service || 'Store Purchase',
           type: service ? 'streaming-service' : 'retail',
           platform: 'online',
-          location: 'global'
+          location: 'global',
         },
         seasonalTiming,
         paymentDetails: {
           ...(activeTab === 'card' && {
             lastFourDigits: cardNumber.slice(-4),
             expiryDate,
-            cardType: cardNumber.startsWith('4') ? 'visa' : 
-                     cardNumber.startsWith('5') ? 'mastercard' : 
-                     'other'
+            cardType: cardNumber.startsWith('4') ? 'visa' : cardNumber.startsWith('5') ? 'mastercard' : 'other',
           }),
           ...(activeTab === 'paypal' && {
-            email: paypalEmail
+            email: paypalEmail,
           }),
           ...(activeTab === 'cvrd' && {
             bank: selectedBank,
             lastFourDigits: cardNumber.slice(-4),
-            expiryDate
-          })
+            expiryDate,
+          }),
         },
         metadata: {
           deviceType: 'web',
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent,
-          ipLocation: 'to-be-implemented' // Would require backend implementation
-        }
+          ipLocation: 'to-be-implemented', // Would require backend implementation
+        },
       };
 
       // Save initial transaction
       transaction = saveTransaction(transactionData);
 
       // Simulate API call
-      await new Promise((resolve, reject) => {
+      await new Promise((resolve) => {
         setTimeout(() => {
-          if (Math.random() > 0.5) {
-            resolve();
-          } else {
-            reject(new Error('Payment failed'));
-          }
+          resolve();
         }, 1500);
       });
 
@@ -166,7 +162,7 @@ export default function PaymentGateway() {
       });
 
       setTimeout(() => {
-        redirect('/payment-status?status=success');
+        redirect('/subscriptions');
       }, 1000);
     } catch (error) {
       // Update transaction status to failed
