@@ -8,7 +8,7 @@ import { formatCardNumber, formatExpiryDate, formatPrice } from '@/lib/payment-u
 const banks = [
   {
     name: 'Boubyan Bank',
-    prefixes: ['400012', '400134', '400256'],
+    prefixes: ['470735' ,'470350', '490455', '490456'],
   },
   {
     name: 'Kuwait Finance House',

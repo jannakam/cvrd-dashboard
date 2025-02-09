@@ -10,6 +10,7 @@ import { CardPaymentForm } from '@/components/payment/CardPaymentForm';
 import { PayPalForm } from '@/components/payment/PayPalForm';
 import { CVRDForm } from '@/components/payment/CVRDForm';
 import { formatPrice, validateCardPayment, validateCVRDPayment } from '@/lib/payment-utils';
+
 import {
   saveTransaction,
   updateTransactionStatus,
@@ -33,12 +34,12 @@ export default function PaymentGateway() {
   // PayPal state
   const [paypalEmail, setPaypalEmail] = useState('');
 
-  // CVRD state
+  // KNET state
   const [selectedBank, setSelectedBank] = useState('');
   const [cardPrefix, setCardPrefix] = useState('');
 
   // Common state
-  const [activeTab, setActiveTab] = useState('card');
+  const [activeTab, setActiveTab] = useState('knet');
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayPalRedirect = (email) => {
@@ -60,7 +61,7 @@ export default function PaymentGateway() {
     let isValid = false;
     if (activeTab === 'card') {
       isValid = validateCardPayment(cardNumber, expiryDate, cvv);
-    } else if (activeTab === 'cvrd') {
+    } else if (activeTab === 'knet') {
       isValid = validateCVRDPayment(cardNumber, expiryDate, cvv, selectedBank, cardPrefix);
     }
 
@@ -128,7 +129,7 @@ export default function PaymentGateway() {
           ...(activeTab === 'paypal' && {
             email: paypalEmail,
           }),
-          ...(activeTab === 'cvrd' && {
+          ...(activeTab === 'knet' && {
             bank: selectedBank,
             lastFourDigits: cardNumber.slice(-4),
             expiryDate,
@@ -196,7 +197,7 @@ export default function PaymentGateway() {
           <CardDescription className="pt-2">Select your preferred payment method below</CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="card" className="w-full" onValueChange={setActiveTab}>
+          <Tabs defaultValue="knet" className="w-full" onValueChange={setActiveTab}>
             <TabsList className="inline-flex h-10 w-full items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
               <TabsTrigger value="card" className="flex-1">
                 Credit Card
@@ -204,8 +205,8 @@ export default function PaymentGateway() {
               <TabsTrigger value="paypal" className="flex-1">
                 PayPal
               </TabsTrigger>
-              <TabsTrigger value="cvrd" className="flex-1">
-                CVRD
+              <TabsTrigger value="knet" className="flex-1">
+                KNET
               </TabsTrigger>
             </TabsList>
 
@@ -232,7 +233,7 @@ export default function PaymentGateway() {
               />
             </TabsContent>
 
-            <TabsContent value="cvrd" className="mt-4">
+            <TabsContent value="knet" className="mt-4">
               <CVRDForm
                 selectedBank={selectedBank}
                 setSelectedBank={setSelectedBank}
