@@ -1,5 +1,6 @@
 // lib/api.ts
 import axios from 'axios';
+import { toast } from '@/hooks/use-toast';
 
 const api = axios.create({
   baseURL: 'http://localhost:8080',
@@ -37,6 +38,11 @@ api.interceptors.request.use(
   },
   (error) => {
     console.error('Request interceptor error:', error);
+    toast({
+      variant: 'destructive',
+      title: 'Request Failed',
+      description: 'Failed to send request. Please try again.',
+    });
     return Promise.reject(error);
   }
 );
@@ -48,9 +54,19 @@ api.interceptors.response.use(
     if (response.config.url === '/transaction/process') {
       const data = response.data;
       if (data.status === 'DECLINED' || data.declineReason) {
-        const error = new Error(data.declineReason || 'Transaction declined');
-        error.response = response;
-        throw error;
+        toast({
+          variant: 'destructive',
+          title: 'Transaction Declined',
+          description: data.declineReason || 'Transaction declined',
+        });
+        return {
+          ...response,
+          data: {
+            ...data,
+            status: 'DECLINED',
+            declineReason: data.declineReason || 'Transaction declined',
+          },
+        };
       }
     }
 
@@ -76,6 +92,39 @@ api.interceptors.response.use(
       },
     };
     console.error('API Error:', errorDetails);
+
+    // Show appropriate toast notification based on error type
+    if (error.response?.status === 401) {
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Error',
+        description: 'Please log in again to continue.',
+      });
+    } else if (error.response?.status === 403) {
+      toast({
+        variant: 'destructive',
+        title: 'Access Denied',
+        description: 'You do not have permission to perform this action.',
+      });
+    } else if (error.response?.status === 404) {
+      toast({
+        variant: 'destructive',
+        title: 'Not Found',
+        description: 'The requested resource was not found.',
+      });
+    } else if (error.response?.status >= 500) {
+      toast({
+        variant: 'destructive',
+        title: 'Server Error',
+        description: 'An unexpected error occurred. Please try again later.',
+      });
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message || 'An unexpected error occurred.',
+      });
+    }
 
     // Enhance error object with our custom details
     error.details = errorDetails;

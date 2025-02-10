@@ -1,8 +1,11 @@
 // hooks/useTransactions.js
 import { useMutation, useQuery } from '@tanstack/react-query';
 import api from '../lib/api';
+import { useToast } from '@/hooks/use-toast';
 
 export const useCreateTransaction = () => {
+  const { toast } = useToast();
+
   return useMutation({
     mutationFn: async (transaction) => {
       try {
@@ -46,7 +49,12 @@ export const useCreateTransaction = () => {
 
         // Check if the response indicates a declined transaction
         if (response.data.status === 'DECLINED' || response.data.declineReason) {
-          throw new Error(response.data.declineReason || 'Transaction declined');
+          toast({
+            variant: 'destructive',
+            title: 'Transaction Declined',
+            description: response.data.declineReason || 'Transaction declined',
+          });
+          return response.data;
         }
 
         return response.data;
@@ -60,18 +68,38 @@ export const useCreateTransaction = () => {
           details: error.details,
         });
 
-        // Handle specific error cases
+        // Handle specific error cases with toast notifications
         if (error.message.includes('Card not found')) {
-          throw new Error('Invalid card details. Please check your card information and try again.');
-        }
-        if (error.response?.data?.declineReason) {
-          throw new Error(error.response.data.declineReason);
-        }
-        if (error.response?.status === 400) {
-          throw new Error('Invalid transaction data. Please check your input and try again.');
+          toast({
+            variant: 'destructive',
+            title: 'Invalid Card',
+            description: 'Please check your card information and try again.',
+          });
+        } else if (error.response?.data?.declineReason) {
+          toast({
+            variant: 'destructive',
+            title: 'Transaction Failed',
+            description: error.response.data.declineReason,
+          });
+        } else if (error.response?.status === 400) {
+          toast({
+            variant: 'destructive',
+            title: 'Invalid Data',
+            description: 'Please check your input and try again.',
+          });
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Transaction Failed',
+            description: error.message || 'Failed to process transaction. Please try again.',
+          });
         }
 
-        throw new Error(error.message || 'Failed to process transaction. Please try again.');
+        // Return the error response for the component to handle
+        return {
+          status: 'DECLINED',
+          declineReason: error.message || 'Failed to process transaction',
+        };
       }
     },
   });

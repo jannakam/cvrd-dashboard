@@ -18,12 +18,51 @@ const formatPrice = (price) => {
 };
 
 export function CartSheet({ open, onOpenChange }) {
-  const { items, storeId, removeItem, addItem, getTotal } = useCart();
+  const { items, storeId, removeItem, addItem, getTotal, storeName, storeCategory } = useCart();
   const router = useRouter();
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleCheckout = () => {
-    router.push(`/payment?total=${getTotal()}`);
+    // Calculate totals
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const tax = subtotal * 0.05; // 5% tax
+    const shipping = subtotal > 50 ? 0 : 5; // Free shipping over $50
+    const total = subtotal + tax + shipping;
+
+    // Format items with all necessary details
+    const formattedItems = items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      category: item.category,
+      totalItemPrice: item.price * item.quantity,
+    }));
+
+    // Create URL parameters with all necessary details
+    const searchParams = new URLSearchParams({
+      // Store details
+      storeName: storeName,
+      storeCategory: storeCategory,
+
+      // Transaction totals
+      subtotal: subtotal.toFixed(2),
+      tax: tax.toFixed(2),
+      shipping: shipping.toFixed(2),
+      total: total.toFixed(2),
+
+      // Detailed item information
+      items: JSON.stringify(formattedItems),
+    });
+
+    console.log('Checkout details:', {
+      store: storeName,
+      category: storeCategory,
+      items: formattedItems,
+      total: total,
+    });
+
+    router.push(`/payment?${searchParams.toString()}`);
   };
 
   return (

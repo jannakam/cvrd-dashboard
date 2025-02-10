@@ -84,3 +84,105 @@ export const validateCVRDPayment = (cardNumber, expiryDate, cvv, selectedBank, c
 
   return isValid;
 };
+
+export const generateTransactionDescription = (type, details) => {
+  try {
+    let description = '';
+
+    if (type === 'SUBSCRIPTION') {
+      description = JSON.stringify({
+        type: 'SUBSCRIPTION',
+        merchant: {
+          name: details.service,
+          location: {
+            latitude: details.latitude || null,
+            longitude: details.longitude || null,
+          },
+        },
+        subscription: {
+          plan: details.plan,
+          price: details.amount,
+          billingCycle: details.billingCycle || 'monthly',
+          devices: details.devices || 1,
+          quality: details.quality || 'HD',
+        },
+        payment: {
+          method: details.paymentMethod || 'Card',
+          total: details.amount,
+          currency: 'USD',
+        },
+      });
+    } else if (type === 'STORE_PURCHASE') {
+      // Format each item with all available details
+      const formattedItems = (details.items || []).map((item) => ({
+        id: item.id,
+        name: item.name,
+        quantity: parseInt(item.quantity) || 1,
+        unitPrice: parseFloat(item.price),
+        totalPrice: parseFloat(item.totalItemPrice || item.price * item.quantity),
+        category: item.category || 'General',
+      }));
+
+      description = JSON.stringify({
+        type: 'STORE_PURCHASE',
+        merchant: {
+          name: details.merchant,
+          category: details.merchantCategory,
+          description: details.storeDescription,
+          location: {
+            latitude: details.latitude || null,
+            longitude: details.longitude || null,
+          },
+        },
+        items: formattedItems,
+        itemsSummary: {
+          count: formattedItems.length,
+          totalItems: formattedItems.reduce((sum, item) => sum + item.quantity, 0),
+        },
+        payment: {
+          method: details.paymentMethod || 'Card',
+          subtotal: parseFloat(details.subtotal || 0).toFixed(2),
+          tax: parseFloat(details.tax || 0).toFixed(2),
+          shipping: parseFloat(details.shipping || 0).toFixed(2),
+          total: parseFloat(details.amount || 0).toFixed(2),
+          currency: 'USD',
+        },
+      });
+
+      // Log the description for debugging
+      console.log('Generated transaction description:', {
+        merchant: details.merchant,
+        items: formattedItems,
+        total: details.amount,
+      });
+    } else {
+      description = JSON.stringify({
+        type: 'GENERAL_PURCHASE',
+        merchant: {
+          name: details.merchant,
+          category: details.merchantCategory || 'General',
+          location: {
+            latitude: details.latitude || null,
+            longitude: details.longitude || null,
+          },
+        },
+        payment: {
+          method: details.paymentMethod || 'Card',
+          amount: parseFloat(details.amount || 0).toFixed(2),
+          currency: 'USD',
+        },
+      });
+    }
+
+    return description;
+  } catch (error) {
+    console.error('Error generating transaction description:', error);
+    console.error('Details received:', details);
+    return JSON.stringify({
+      type,
+      merchant: details.merchant,
+      amount: parseFloat(details.amount || 0).toFixed(2),
+      error: 'Failed to generate full description',
+    });
+  }
+};

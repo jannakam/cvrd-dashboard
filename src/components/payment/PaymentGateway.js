@@ -9,7 +9,12 @@ import { useSearchParams } from 'next/navigation';
 import { CardPaymentForm } from '@/components/payment/CardPaymentForm';
 import { PayPalForm } from '@/components/payment/PayPalForm';
 import { CVRDForm } from '@/components/payment/CVRDForm';
-import { formatPrice, validateCardPayment, validateCVRDPayment } from '@/lib/payment-utils';
+import {
+  formatPrice,
+  validateCardPayment,
+  validateCVRDPayment,
+  generateTransactionDescription,
+} from '@/lib/payment-utils';
 import { useCreateTransaction } from '@/hooks/useTransactions';
 
 export default function PaymentGateway() {
@@ -102,23 +107,72 @@ export default function PaymentGateway() {
         console.log('Location not available:', error);
       }
 
+      // Prepare transaction details
+      const transactionType = service ? 'SUBSCRIPTION' : 'STORE_PURCHASE';
+
+      // Parse items and ensure all values are properly typed
+      const items = JSON.parse(decodeURIComponent(searchParams.get('items') || '[]'));
+      console.log('Parsed items:', items);
+
+      const transactionDetails = service
+        ? {
+            // Subscription details
+            service,
+            serviceName: searchParams.get('serviceName'),
+            serviceCategory: searchParams.get('serviceCategory'),
+            plan,
+            amount: parseFloat(total),
+            isRecurring: true,
+
+            // Subscription features
+            devices: parseInt(searchParams.get('devices') || '1'),
+            quality: searchParams.get('quality') || 'HD',
+            billingCycle: searchParams.get('billingCycle') || 'monthly',
+            features: searchParams.get('features')?.split(',') || [],
+          }
+        : {
+            // For store purchases
+            items: items,
+            subtotal: parseFloat(searchParams.get('subtotal') || total),
+            tax: parseFloat(searchParams.get('tax') || '0'),
+            shipping: parseFloat(searchParams.get('shipping') || '0'),
+            amount: parseFloat(total),
+            // Store/Merchant details
+            merchant: searchParams.get('storeName'),
+            merchantName: searchParams.get('merchantName'),
+            merchantCategory: searchParams.get('merchantCategory'),
+            storeDescription: searchParams.get('storeDescription'),
+            // Location details will be added from geolocation
+            latitude,
+            longitude,
+          };
+
       const transactionData = {
         cardNumber:
           activeTab === 'knet' ? `${cardPrefix}${cardNumber.replace(/\s/g, '')}` : cardNumber.replace(/\s/g, ''),
         cvv,
         expiryDate,
-        merchant: service || 'Online Purchase',
+        merchant: service ? searchParams.get('serviceName') : searchParams.get('storeName'),
         amount: parseFloat(total),
-        isRecurring: !!service,
-        description: `Payment via ${activeTab.toUpperCase()}`,
-        type: service ? 'SUBSCRIPTION' : 'PURCHASE',
-        category: service ? 'STREAMING' : 'SHOPPING',
+        isRecurring: !!searchParams.get('isRecurring'),
+        description: generateTransactionDescription(transactionType, {
+          ...transactionDetails,
+          paymentMethod: activeTab.toUpperCase(),
+          items: items, // Ensure items are passed to description generator
+        }),
+        type: transactionType,
+        category: service ? searchParams.get('serviceCategory') : searchParams.get('merchantCategory'),
         latitude,
         longitude,
         paymentMethod: activeTab.toUpperCase(),
       };
 
-      console.log('Creating transaction with data:', transactionData);
+      console.log('Creating transaction with data:', {
+        ...transactionData,
+        cardNumber: '************' + transactionData.cardNumber.slice(-4),
+        cvv: '***',
+        items: items, // Log items for verification
+      });
 
       const transaction = await createTransaction.mutateAsync(transactionData);
       console.log('Transaction response:', transaction);
@@ -131,16 +185,22 @@ export default function PaymentGateway() {
         });
         router.push('/payment-status?status=success');
       } else {
-        throw new Error(transaction.declineReason || 'Transaction declined');
+        // Pass the decline reason to the status page
+        const searchParams = new URLSearchParams({
+          status: 'failed',
+          reason: transaction.declineReason || 'Unknown error',
+        });
+        router.push(`/payment-status?${searchParams.toString()}`);
       }
     } catch (error) {
       console.error('Payment error:', error);
-      toast({
-        variant: 'outline',
-        title: 'Payment Failed',
-        description: error.message || 'There was an error processing your payment.',
+
+      // Handle API-level errors
+      const searchParams = new URLSearchParams({
+        status: 'failed',
+        reason: error.message || 'Unknown error',
       });
-      router.push('/payment-status?status=failed');
+      router.push(`/payment-status?${searchParams.toString()}`);
     } finally {
       setIsProcessing(false);
     }
