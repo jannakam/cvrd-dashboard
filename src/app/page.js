@@ -6,9 +6,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ModeToggle } from '@/components/ModeToggle';
 import { Footer } from '@/components/Footer';
 import { Store, CreditCard } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function HomePage() {
   const router = useRouter();
+  const { logout } = useAuth();
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -18,11 +20,17 @@ export default function HomePage() {
           <div className="flex items-center gap-6 pl-5">
             <h1 className="text-2xl font-bold">CVRD Dashboard</h1>
           </div>
+          <div className="flex items-center gap-4 pr-5">
+            <ModeToggle />
+            <Button variant="outline" onClick={logout}>
+              Logout
+            </Button>
+          </div>
         </div>
       </nav>
 
       {/* Main Content */}
-      <main className="container flex flex-1 items-center justify-center pb-12 pt-24 self-center">
+      <main className="container flex flex-1 items-center justify-center self-center pb-12 pt-24">
         <div className="w-full max-w-3xl space-y-8">
           <div className="space-y-4 text-center">
             <h1 className="text-4xl font-bold md:text-6xl">Welcome to CVRD Dashboard</h1>
