@@ -27,8 +27,9 @@ function StoreNavbar({ store }) {
   );
 }
 
-export default function StorePage({ params }) {
-  const store = stores.find((s) => s.id === params.id);
+export default async function StorePage({ params }) {
+  const { id } = await params;
+  const store = stores.find((s) => s.id === id);
 
   if (!store) {
     redirect('/stores');
