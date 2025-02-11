@@ -8,12 +8,12 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { subscriptions } from '@/data/subscriptions';
-import { ModeToggle } from '@/components/ModeToggle';
 import { ChevronLeft, ChevronRight, Play, Info, Crown, Plus, ThumbsUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { use } from 'react';
 import Image from 'next/image';
 import { Footer } from '@/components/Footer';
+
 export default function SubscriptionPage({ params }) {
   const router = useRouter();
   const [subscription, setSubscription] = useState(null);
@@ -40,9 +40,8 @@ export default function SubscriptionPage({ params }) {
     if (element) {
       const rect = element.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      const expandedCardHeight = rect.height * 1.5; // Approximate expanded height
+      const expandedCardHeight = rect.height * 1.5;
 
-      // Adjust top position if card would overflow bottom of viewport
       let top = rect.top;
       if (rect.top + expandedCardHeight > viewportHeight) {
         top = viewportHeight - expandedCardHeight;
@@ -100,24 +99,30 @@ export default function SubscriptionPage({ params }) {
     <div className="min-h-screen bg-background">
       {/* Navigation */}
       <nav className="fixed top-0 z-40 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6 pl-5">
-            <div className="h-8 w-auto">
-              <Image
-                src={subscription.logo}
-                alt={subscription.name}
-                width={80}
-                height={32}
-                className="h-full w-auto object-contain"
-              />
+        <div className="mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="h-8 w-auto">
+                <Image
+                  src={subscription.logo}
+                  alt={subscription.name}
+                  width={80}
+                  height={32}
+                  className="h-full w-auto object-contain"
+                />
+              </div>
+              <div className="hidden items-center gap-4 md:flex">
+                {subscription.categories.map((category) => (
+                  <Button key={category} variant="ghost" className="text-foreground/80 hover:text-foreground">
+                    {category}
+                  </Button>
+                ))}
+              </div>
             </div>
-            <div className="hidden items-center gap-6 md:flex">
-              {subscription.categories.map((category) => (
-                <Button key={category} variant="ghost" className="text-foreground/80 hover:text-foreground">
-                  {category}
-                </Button>
-              ))}
-            </div>
+            <Button className="gap-2" onClick={() => router.push(`/plan?service=${subscription.id}`)}>
+              <Play className="h-4 w-4" />
+              Subscribe Now
+            </Button>
           </div>
         </div>
       </nav>
@@ -282,7 +287,7 @@ export default function SubscriptionPage({ params }) {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer showBackButton backTo="subscriptions" />
     </div>
   );
 }

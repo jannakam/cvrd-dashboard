@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ModeToggle } from '@/components/ModeToggle';
 import { Footer } from '@/components/Footer';
 import { Store, CreditCard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -16,12 +15,9 @@ export default function HomePage() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       {/* Navigation */}
       <nav className="fixed top-0 z-40 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6 pl-5">
-            <h1 className="text-2xl font-bold">CVRD Dashboard</h1>
-          </div>
-          <div className="flex items-center gap-4 pr-5">
-            <ModeToggle />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <h1 className="text-lg font-bold sm:text-xl md:text-2xl">CVRD Dashboard</h1>
             <Button variant="outline" onClick={logout}>
               Logout
             </Button>
@@ -37,7 +33,7 @@ export default function HomePage() {
             <p className="text-lg text-muted-foreground">Choose your destination to get started</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 pt-8 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 pt-8 md:grid-cols-2 max-sm:px-4">
             {/* Stores Card */}
             <Card
               className="group cursor-pointer transition-all duration-200 hover:shadow-lg"

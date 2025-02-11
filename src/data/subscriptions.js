@@ -5,7 +5,7 @@ const generateServiceContent = (serviceId) => {
   resetContentTracking();
   return {
     featured_content: generateUniqueContent(2, serviceId),
-    content_rows: generateContentRows(serviceId)
+    content_rows: generateContentRows(serviceId),
   };
 };
 
@@ -22,23 +22,23 @@ export const subscriptions = [
     plans: [
       {
         name: 'Basic',
-        price: 9.99,
+        price: 2.9,
         features: ['Good video quality', '1 device at a time', 'Ad-supported'],
-        popular: false
+        popular: false,
       },
       {
         name: 'Standard',
-        price: 15.49,
+        price: 4.9,
         features: ['Great video quality', '2 devices at a time', 'Ad-free viewing'],
-        popular: true
+        popular: true,
       },
       {
         name: 'Premium',
-        price: 22.99,
+        price: 7.9,
         features: ['Best video quality', '4 devices at a time', 'Ultra HD available'],
-        popular: false
-      }
-    ]
+        popular: false,
+      },
+    ],
   },
   {
     id: 'disney-plus',
@@ -52,23 +52,23 @@ export const subscriptions = [
     plans: [
       {
         name: 'Basic',
-        price: 7.99,
+        price: 2.5,
         features: ['Ad-supported', 'HD quality', '2 devices'],
-        popular: false
+        popular: false,
       },
       {
         name: 'Premium',
-        price: 13.99,
+        price: 4.5,
         features: ['Ad-free', '4K UHD', '4 devices'],
-        popular: true
+        popular: true,
       },
       {
         name: 'Bundle',
-        price: 19.99,
+        price: 6.9,
         features: ['Disney+', 'Hulu', 'ESPN+'],
-        popular: false
-      }
-    ]
+        popular: false,
+      },
+    ],
   },
   {
     id: 'prime-video',
@@ -82,23 +82,23 @@ export const subscriptions = [
     plans: [
       {
         name: 'Prime Video',
-        price: 8.99,
+        price: 2.9,
         features: ['Streaming only', 'HD quality', '3 devices'],
-        popular: false
+        popular: false,
       },
       {
         name: 'Prime',
-        price: 14.99,
+        price: 4.9,
         features: ['Prime Video', 'Free shipping', 'Prime Music'],
-        popular: true
+        popular: true,
       },
       {
         name: 'Student',
-        price: 7.49,
+        price: 2.5,
         features: ['50% off Prime', 'Student exclusive deals', '6-month trial'],
-        popular: false
-      }
-    ]
+        popular: false,
+      },
+    ],
   },
   {
     id: 'hbo-max',
@@ -112,23 +112,23 @@ export const subscriptions = [
     plans: [
       {
         name: 'With Ads',
-        price: 9.99,
+        price: 3.5,
         features: ['Ad-supported', 'HD streaming', '2 devices'],
-        popular: false
+        popular: false,
       },
       {
         name: 'Ad-Free',
-        price: 15.99,
+        price: 5.9,
         features: ['No ads', '4K UHD', '3 devices'],
-        popular: true
+        popular: true,
       },
       {
         name: 'Ultimate',
-        price: 19.99,
+        price: 7.9,
         features: ['4K UHD', '100 downloads', '4 devices'],
-        popular: false
-      }
-    ]
+        popular: false,
+      },
+    ],
   },
   {
     id: 'apple-tv',
@@ -142,23 +142,23 @@ export const subscriptions = [
     plans: [
       {
         name: 'Monthly',
-        price: 6.99,
+        price: 2.9,
         features: ['Ad-free', '4K HDR', 'Family sharing'],
-        popular: true
+        popular: true,
       },
       {
         name: 'Annual',
-        price: 69.99,
+        price: 28.9,
         features: ['Save 12%', '4K HDR', 'Family sharing'],
-        popular: false
+        popular: false,
       },
       {
         name: 'Apple One',
-        price: 16.95,
+        price: 6.9,
         features: ['Apple TV+', 'Apple Music', 'Apple Arcade'],
-        popular: false
-      }
-    ]
+        popular: false,
+      },
+    ],
   },
   {
     id: 'hulu',
@@ -172,23 +172,23 @@ export const subscriptions = [
     plans: [
       {
         name: 'With Ads',
-        price: 7.99,
+        price: 2.9,
         features: ['Ad-supported', 'Full library', '2 screens'],
-        popular: false
+        popular: false,
       },
       {
         name: 'No Ads',
-        price: 14.99,
+        price: 4.9,
         features: ['Ad-free', 'Downloads', '2 screens'],
-        popular: true
+        popular: true,
       },
       {
         name: 'Live TV',
-        price: 69.99,
+        price: 24.9,
         features: ['Live TV', '75+ channels', 'Sports'],
-        popular: false
-      }
-    ]
+        popular: false,
+      },
+    ],
   },
   {
     id: 'paramount-plus',
@@ -202,23 +202,23 @@ export const subscriptions = [
     plans: [
       {
         name: 'Essential',
-        price: 5.99,
+        price: 2.5,
         features: ['Ad-supported', 'NFL on CBS', '2 devices'],
-        popular: false
+        popular: false,
       },
       {
         name: 'Premium',
-        price: 11.99,
+        price: 4.9,
         features: ['Ad-free', 'Local CBS', '3 devices'],
-        popular: true
+        popular: true,
       },
       {
         name: 'Bundle',
-        price: 14.99,
+        price: 5.9,
         features: ['Showtime included', 'Downloads', '4K content'],
-        popular: false
-      }
-    ]
+        popular: false,
+      },
+    ],
   },
   {
     id: 'crunchyroll',
@@ -232,22 +232,22 @@ export const subscriptions = [
     plans: [
       {
         name: 'Fan',
-        price: 7.99,
+        price: 2.9,
         features: ['Ad-free', 'Unlimited access', '1 device'],
-        popular: false
+        popular: false,
       },
       {
         name: 'Mega Fan',
-        price: 9.99,
+        price: 3.9,
         features: ['4 devices', 'Offline viewing', 'Fan perks'],
-        popular: true
+        popular: true,
       },
       {
         name: 'Ultimate Fan',
-        price: 14.99,
+        price: 5.9,
         features: ['6 devices', 'Exclusive merch', 'First access'],
-        popular: false
-      }
-    ]
-  }
-]; 
+        popular: false,
+      },
+    ],
+  },
+];
