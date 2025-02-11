@@ -1,52 +1,51 @@
-"use client";
+'use client';
+
+import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { CheckCircle2, XCircle } from "lucide-react";
 import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { CheckCircle2, XCircle } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function PaymentStatus() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { toast } = useToast();
+
   const status = searchParams.get('status');
-  const isSuccess = status === 'success';
+  const reason = searchParams.get('reason');
+
+  useEffect(() => {
+    if (status === 'failed' && reason) {
+      toast({
+        title: 'Transaction Failed',
+        description: reason,
+        variant: 'destructive',
+      });
+    }
+  }, [status, reason, toast]);
 
   return (
-    <div className="h-screen w-screen container mx-auto p-4 max-w-3xl flex items-center justify-center min-h-[80vh]">
-      <Card className="w-[450px]">
-        <CardHeader className="space-y-2">
-          <div className="flex justify-center mb-4">
-            {isSuccess ? (
-              <CheckCircle2 size={64} color="green"/>
-            ) : (
-              <XCircle size={64} color="red"/>
-            )}
-          </div>
-          <CardTitle className="text-lg font-bold text-center">
-            {isSuccess ? 'Payment Successful' : 'Payment Failed'}
-          </CardTitle>
-          <CardDescription className="text-center text-md">
-            {isSuccess 
-              ? 'Your payment has been processed successfully.' 
-              : 'There was an issue processing your payment. Please try again.'}
+    <div className="container mx-auto flex min-h-[80vh] w-screen max-w-md items-center justify-center p-4">
+      <Card className="w-full">
+        <CardHeader className="text-center">
+          {status === 'success' ? (
+            <CheckCircle2 className="mx-auto h-12 w-12 text-green-500" />
+          ) : (
+            <XCircle className="mx-auto h-12 w-12 text-red-500" />
+          )}
+          <CardTitle className="text-2xl">{status === 'success' ? 'Payment Successful' : 'Payment Failed'}</CardTitle>
+          <CardDescription>
+            {status === 'success'
+              ? 'Your payment has been processed successfully'
+              : 'Please try again or use a different payment method'}
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-center text-muted-foreground text-md">
-          {isSuccess 
-            ? 'Thank you for your payment. You will receive a confirmation email shortly.'
-            : 'If this issue persists, please contact your bank or try a different payment method.'}
+        <CardContent className="flex justify-center">
+          <Button onClick={() => router.push('/stores')}>Return to Stores</Button>
         </CardContent>
-        <CardFooter className="flex justify-center space-x-2">
-          <Button onClick={() => router.push('/payment')} variant="outline">
-            Return to Payment
-          </Button>
-          {!isSuccess && (
-            <Button onClick={() => router.push('/payment')} variant="default">
-              Try Again
-            </Button>
-          )}
-        </CardFooter>
       </Card>
     </div>
   );
-} 
+}

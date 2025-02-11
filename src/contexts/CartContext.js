@@ -7,6 +7,8 @@ const CartContext = createContext();
 const initialState = {
   items: [],
   storeId: null,
+  storeName: null,
+  storeCategory: null,
 };
 
 function cartReducer(state, action) {
@@ -17,6 +19,8 @@ function cartReducer(state, action) {
         return {
           items: [{ ...action.item, quantity: 1 }],
           storeId: action.item.storeId,
+          storeName: action.storeName,
+          storeCategory: action.storeCategory,
         };
       }
 
@@ -24,12 +28,17 @@ function cartReducer(state, action) {
       if (existingItem) {
         return {
           ...state,
-          items: state.items.map((item) => (item.id === action.item.id ? { ...item, quantity: item.quantity + 1 } : item)),
+          items: state.items.map((item) =>
+            item.id === action.item.id ? { ...item, quantity: item.quantity + 1 } : item
+          ),
         };
       }
       return {
+        ...state,
         items: [...state.items, { ...action.item, quantity: 1 }],
         storeId: action.item.storeId,
+        storeName: action.storeName,
+        storeCategory: action.storeCategory,
       };
     }
     case 'REMOVE_ITEM': {
@@ -37,8 +46,11 @@ function cartReducer(state, action) {
       if (existingItem.quantity === 1) {
         const newItems = state.items.filter((item) => item.id !== action.itemId);
         return {
+          ...state,
           items: newItems,
           storeId: newItems.length > 0 ? state.storeId : null,
+          storeName: newItems.length > 0 ? state.storeName : null,
+          storeCategory: newItems.length > 0 ? state.storeCategory : null,
         };
       }
       return {
@@ -57,7 +69,14 @@ export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
   const addItem = (item) => {
-    dispatch({ type: 'ADD_ITEM', item });
+    // Extract store info from the item
+    const { storeName, storeCategory, ...itemData } = item;
+    dispatch({
+      type: 'ADD_ITEM',
+      item: itemData,
+      storeName,
+      storeCategory,
+    });
   };
 
   const removeItem = (itemId) => {
@@ -72,7 +91,11 @@ export function CartProvider({ children }) {
     return state.items.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  return <CartContext.Provider value={{ ...state, addItem, removeItem, clearCart, getTotal }}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={{ ...state, addItem, removeItem, clearCart, getTotal }}>
+      {children}
+    </CartContext.Provider>
+  );
 }
 
 export function useCart() {

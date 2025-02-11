@@ -1,27 +1,28 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { CardPaymentForm } from '@/components/payment/CardPaymentForm';
 import { PayPalForm } from '@/components/payment/PayPalForm';
 import { CVRDForm } from '@/components/payment/CVRDForm';
-import { formatPrice, validateCardPayment, validateCVRDPayment } from '@/lib/payment-utils';
-
 import {
-  saveTransaction,
-  updateTransactionStatus,
-  TRANSACTION_STATUS,
-  TRANSACTION_TYPE,
-  TRANSACTION_CATEGORY,
-} from '@/lib/transaction-storage';
+  formatPrice,
+  validateCardPayment,
+  validateCVRDPayment,
+  generateTransactionDescription,
+} from '@/lib/payment-utils';
+import { useCreateTransaction } from '@/hooks/useTransactions';
 
 export default function PaymentGateway() {
   const { toast } = useToast();
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const createTransaction = useCreateTransaction();
+
   const total = searchParams.get('total') || '0';
   const service = searchParams.get('service');
   const plan = searchParams.get('plan');
@@ -31,9 +32,6 @@ export default function PaymentGateway() {
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
 
-  // PayPal state
-  const [paypalEmail, setPaypalEmail] = useState('');
-
   // KNET state
   const [selectedBank, setSelectedBank] = useState('');
   const [cardPrefix, setCardPrefix] = useState('');
@@ -42,26 +40,44 @@ export default function PaymentGateway() {
   const [activeTab, setActiveTab] = useState('knet');
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handlePayPalRedirect = (email) => {
-    const paypalBaseUrl = 'https://www.paypal.com/signin';
-    window.location.href = paypalBaseUrl;
+  const handlePayPalRedirect = async () => {
+    setIsProcessing(true);
+    try {
+      // Redirect to PayPal sign in
+      window.location.href = 'https://www.paypal.com/signin';
+    } catch (error) {
+      console.error('PayPal error:', error);
+      toast({
+        variant: 'outline',
+        title: 'Redirect Failed',
+        description: 'Failed to redirect to PayPal. Please try again.',
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted', activeTab);
+    console.log('Form submitted', { activeTab, cardNumber, expiryDate, cvv, selectedBank, cardPrefix });
 
     if (activeTab === 'paypal') {
-      if (paypalEmail) {
-        handlePayPalRedirect(paypalEmail);
-        return;
-      }
+      await handlePayPalRedirect();
+      return;
     }
 
     let isValid = false;
     if (activeTab === 'card') {
       isValid = validateCardPayment(cardNumber, expiryDate, cvv);
     } else if (activeTab === 'knet') {
+      if (!selectedBank || !cardPrefix || !cardNumber || !expiryDate || !cvv) {
+        toast({
+          variant: 'outline',
+          title: 'Validation Error',
+          description: 'Please fill in all required fields.',
+        });
+        return;
+      }
       isValid = validateCVRDPayment(cardNumber, expiryDate, cvv, selectedBank, cardPrefix);
     }
 
@@ -69,117 +85,122 @@ export default function PaymentGateway() {
       toast({
         variant: 'outline',
         title: 'Validation Error',
-        description: 'Please fill in all required fields correctly.',
+        description: 'Please check all fields and try again.',
       });
       return;
     }
 
     setIsProcessing(true);
-    let transaction = null;
 
     try {
-      // Determine if this is a seasonal period
-      const currentDate = new Date();
-      const month = currentDate.getMonth();
-      let seasonalTiming = '';
+      // Get user's current location for location-based cards
+      let latitude = null;
+      let longitude = null;
 
-      // Basic seasonal detection
-      if (month === 11) seasonalTiming = 'holiday-season';
-      else if (month === 6 || month === 7) seasonalTiming = 'summer-sale';
-      else if (month === 1) seasonalTiming = 'winter-sale';
-      else if (month === 4) seasonalTiming = 'spring-sale';
-
-      // Get subscription details if this is a subscription purchase
-      const subscriptionDetails = service
-        ? {
-            name: service,
-            plan: plan,
-            billingFrequency: plan?.toLowerCase().includes('annual') ? 'annual' : 'monthly',
-          }
-        : null;
-
-      // Create enhanced transaction data
-      const transactionData = {
-        amount: parseFloat(total),
-        currency: 'USD',
-        paymentMethod: activeTab,
-        service,
-        plan,
-        status: TRANSACTION_STATUS.PENDING,
-        type: service ? TRANSACTION_TYPE.SUBSCRIPTION : TRANSACTION_TYPE.STORE_PURCHASE,
-        category: service ? TRANSACTION_CATEGORY.STREAMING : TRANSACTION_CATEGORY.SHOPPING,
-        regularPrice: parseFloat(total), // Add actual regular price if available
-        discountApplied: 0, // Add actual discount if available
-        isRecurring: !!service,
-        frequency: subscriptionDetails?.billingFrequency || 'one-time',
-        itemDetails: service ? [subscriptionDetails] : [], // Add subscription details or store items
-        merchantInfo: {
-          name: service || 'Store Purchase',
-          type: service ? 'streaming-service' : 'retail',
-          platform: 'online',
-          location: 'global',
-        },
-        seasonalTiming,
-        paymentDetails: {
-          ...(activeTab === 'card' && {
-            lastFourDigits: cardNumber.slice(-4),
-            expiryDate,
-            cardType: cardNumber.startsWith('4') ? 'visa' : cardNumber.startsWith('5') ? 'mastercard' : 'other',
-          }),
-          ...(activeTab === 'paypal' && {
-            email: paypalEmail,
-          }),
-          ...(activeTab === 'knet' && {
-            bank: selectedBank,
-            lastFourDigits: cardNumber.slice(-4),
-            expiryDate,
-          }),
-        },
-        metadata: {
-          deviceType: 'web',
-          timestamp: new Date().toISOString(),
-          userAgent: navigator.userAgent,
-          ipLocation: 'to-be-implemented', // Would require backend implementation
-        },
-      };
-
-      // Save initial transaction
-      transaction = saveTransaction(transactionData);
-
-      // Simulate API call
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 1500);
-      });
-
-      // Update transaction status to success
-      updateTransactionStatus(transaction.id, TRANSACTION_STATUS.SUCCESS);
-
-      toast({
-        variant: 'outline',
-        title: 'Payment Successful',
-        description: 'Your payment has been processed successfully.',
-      });
-
-      setTimeout(() => {
-        redirect('/subscriptions');
-      }, 1000);
-    } catch (error) {
-      // Update transaction status to failed
-      if (transaction) {
-        updateTransactionStatus(transaction.id, TRANSACTION_STATUS.FAILED);
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+      } catch (error) {
+        console.log('Location not available:', error);
       }
 
-      toast({
-        variant: 'outline',
-        title: 'Payment Failed',
-        description: error.message || 'There was an error processing your payment.',
+      // Prepare transaction details
+      const transactionType = service ? 'SUBSCRIPTION' : 'STORE_PURCHASE';
+
+      // Parse items and ensure all values are properly typed
+      const items = JSON.parse(decodeURIComponent(searchParams.get('items') || '[]'));
+      console.log('Parsed items:', items);
+
+      const transactionDetails = service
+        ? {
+            // Subscription details
+            service,
+            serviceName: searchParams.get('serviceName'),
+            serviceCategory: searchParams.get('serviceCategory'),
+            plan,
+            amount: parseFloat(total),
+            isRecurring: true,
+
+            // Subscription features
+            devices: parseInt(searchParams.get('devices') || '1'),
+            quality: searchParams.get('quality') || 'HD',
+            billingCycle: searchParams.get('billingCycle') || 'monthly',
+            features: searchParams.get('features')?.split(',') || [],
+          }
+        : {
+            // For store purchases
+            items: items,
+            subtotal: parseFloat(searchParams.get('subtotal') || total),
+            tax: parseFloat(searchParams.get('tax') || '0'),
+            shipping: parseFloat(searchParams.get('shipping') || '0'),
+            amount: parseFloat(total),
+            // Store/Merchant details
+            merchant: searchParams.get('storeName'),
+            merchantName: searchParams.get('merchantName'),
+            merchantCategory: searchParams.get('merchantCategory'),
+            storeDescription: searchParams.get('storeDescription'),
+            // Location details will be added from geolocation
+            latitude,
+            longitude,
+          };
+
+      const transactionData = {
+        cardNumber:
+          activeTab === 'knet' ? `${cardPrefix}${cardNumber.replace(/\s/g, '')}` : cardNumber.replace(/\s/g, ''),
+        cvv,
+        expiryDate,
+        merchant: service ? searchParams.get('serviceName') : searchParams.get('storeName'),
+        amount: parseFloat(total),
+        isRecurring: !!searchParams.get('isRecurring'),
+        description: generateTransactionDescription(transactionType, {
+          ...transactionDetails,
+          paymentMethod: activeTab.toUpperCase(),
+          items: items, // Ensure items are passed to description generator
+        }),
+        type: transactionType,
+        category: service ? searchParams.get('serviceCategory') : searchParams.get('merchantCategory'),
+        latitude,
+        longitude,
+        paymentMethod: activeTab.toUpperCase(),
+      };
+
+      console.log('Creating transaction with data:', {
+        ...transactionData,
+        cardNumber: '************' + transactionData.cardNumber.slice(-4),
+        cvv: '***',
+        items: items, // Log items for verification
       });
 
-      setTimeout(() => {
-        redirect('/payment-status?status=failed');
-      }, 1000);
+      const transaction = await createTransaction.mutateAsync(transactionData);
+      console.log('Transaction response:', transaction);
+
+      if (transaction.status === 'APPROVED') {
+        toast({
+          variant: 'outline',
+          title: 'Payment Successful',
+          description: 'Your payment has been processed successfully.',
+        });
+        router.push('/payment-status?status=success');
+      } else {
+        // Pass the decline reason to the status page
+        const searchParams = new URLSearchParams({
+          status: 'failed',
+          reason: transaction.declineReason || 'Unknown error',
+        });
+        router.push(`/payment-status?${searchParams.toString()}`);
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+
+      // Handle API-level errors
+      const searchParams = new URLSearchParams({
+        status: 'failed',
+        reason: error.message || 'Unknown error',
+      });
+      router.push(`/payment-status?${searchParams.toString()}`);
     } finally {
       setIsProcessing(false);
     }
@@ -189,7 +210,6 @@ export default function PaymentGateway() {
     <div className="container mx-auto flex min-h-[80vh] w-screen max-w-3xl items-center justify-center p-4">
       <Card className="w-[450px]">
         <CardHeader className="space-y-4 text-center">
-          {/* <CardTitle className="text-3xl font-bold">Payment Gateway</CardTitle> */}
           <div className="rounded-lg bg-primary/5 p-6">
             <div className="mb-2 text-sm font-medium text-muted-foreground">Amount to Pay</div>
             <div className="text-4xl font-bold text-primary">{formatPrice(parseFloat(total))}</div>
@@ -225,12 +245,7 @@ export default function PaymentGateway() {
             </TabsContent>
 
             <TabsContent value="paypal" className="mt-4">
-              <PayPalForm
-                paypalEmail={paypalEmail}
-                setPaypalEmail={setPaypalEmail}
-                isProcessing={isProcessing}
-                onSubmit={handleSubmit}
-              />
+              <PayPalForm isProcessing={isProcessing} onSubmit={handleSubmit} total={total} />
             </TabsContent>
 
             <TabsContent value="knet" className="mt-4">

@@ -6,7 +6,6 @@ export default function PaymentPage() {
   return (
     <div className="flex min-h-screen w-full flex-col justify-center font-[family-name:var(--font-geist-sans)]">
       <div className="fixed right-8 top-8 z-50">
-        <ModeToggle />
       </div>
       <PaymentGateway />
       <Footer />

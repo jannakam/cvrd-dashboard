@@ -39,13 +39,31 @@ export default function PlanPage() {
   };
 
   const handleGetStarted = (plan) => {
-    router.push(`/payment?service=${subscription.id}&plan=${plan.name}&total=${plan.price}`);
+    const searchParams = new URLSearchParams({
+      // Service details
+      service: subscription.id,
+      serviceName: subscription.name,
+      serviceCategory: subscription.categories[0],
+
+      // Plan details
+      plan: plan.name,
+      total: plan.price.toFixed(2),
+      billingCycle: 'monthly',
+
+      // Features
+      devices: plan.features.find((f) => f.includes('device'))?.match(/\d+/)?.[0] || '1',
+      quality: plan.features.find((f) => f.includes('quality'))?.replace(' quality', '') || 'HD',
+      features: plan.features.join(','),
+
+      // Transaction type
+      isRecurring: 'true',
+    });
+
+    router.push(`/payment?${searchParams.toString()}`);
   };
 
   return (
     <div className="flex min-h-screen w-full flex-col justify-center font-[family-name:var(--font-geist-sans)]">
-    
-
       {/* Navigation */}
       <nav
         className={`fixed top-0 z-40 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-background/60 ${subscription.background_color}`}
