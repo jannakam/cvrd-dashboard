@@ -21,10 +21,10 @@ export const formatExpiryDate = (value) => {
 };
 
 export const formatPrice = (value) => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(value);
+  return `KD ${new Intl.NumberFormat('en-KW', {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3,
+  }).format(value)}`;
 };
 
 export const validateCardPayment = (cardNumber, expiryDate, cvv) => {
@@ -109,7 +109,7 @@ export const generateTransactionDescription = (type, details) => {
         payment: {
           method: details.paymentMethod || 'Card',
           total: details.amount,
-          currency: 'USD',
+          currency: 'KWD',
         },
       });
     } else if (type === 'STORE_PURCHASE') {
@@ -141,11 +141,10 @@ export const generateTransactionDescription = (type, details) => {
         },
         payment: {
           method: details.paymentMethod || 'Card',
-          subtotal: parseFloat(details.subtotal || 0).toFixed(2),
-          tax: parseFloat(details.tax || 0).toFixed(2),
-          shipping: parseFloat(details.shipping || 0).toFixed(2),
-          total: parseFloat(details.amount || 0).toFixed(2),
-          currency: 'USD',
+          subtotal: parseFloat(details.subtotal || 0).toFixed(3),
+          shipping: parseFloat(details.shipping || 0).toFixed(3),
+          total: parseFloat(details.amount || 0).toFixed(3),
+          currency: 'KWD',
         },
       });
 
@@ -168,8 +167,8 @@ export const generateTransactionDescription = (type, details) => {
         },
         payment: {
           method: details.paymentMethod || 'Card',
-          amount: parseFloat(details.amount || 0).toFixed(2),
-          currency: 'USD',
+          amount: parseFloat(details.amount || 0).toFixed(3),
+          currency: 'KWD',
         },
       });
     }
@@ -181,7 +180,7 @@ export const generateTransactionDescription = (type, details) => {
     return JSON.stringify({
       type,
       merchant: details.merchant,
-      amount: parseFloat(details.amount || 0).toFixed(2),
+      amount: parseFloat(details.amount || 0).toFixed(3),
       error: 'Failed to generate full description',
     });
   }

@@ -1,10 +1,12 @@
+import humanPancreasLogo from '/public/assets/logos/human-pancreas-logo.jpeg';
+
 export const stores = [
   {
     id: 'h-and-m',
     name: 'H&M',
     category: 'Clothing',
     description: 'Fashion and quality clothing at the best price',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/2560px-H%26M-Logo.svg.png',
+    logo: 'https://enixc.com/wp-content/uploads/2020/05/1-25.jpg',
     items: [
       {
         id: 1,
@@ -61,14 +63,15 @@ export const stores = [
     name: 'X-cite by Alghanim Electronics',
     category: 'Electronics',
     description: "Kuwait's largest electronics retailer",
-    logo: 'https://www.xcite.com/media/logo/stores/1/xcite-logo.png',
+    logo: 'https://mir-s3-cdn-cf.behance.net/projects/max_808/3b07a9189523155.Y3JvcCw5NjAsNzUwLDAsMTA0.jpg',
     items: [
       {
         id: 1,
         name: 'Apple AirPods Pro',
         price: 89.9,
         category: 'Audio',
-        image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=500',
+        image:
+          'https://www.apple.com/newsroom/images/2024/09/apple-introduces-airpods-4/article/Apple-AirPods-4-with-case-240909_big.jpg.large.jpg',
         stock: 75,
       },
       {
@@ -76,7 +79,7 @@ export const stores = [
         name: 'Apple Watch Series 9',
         price: 149.9,
         category: 'Wearables',
-        image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?w=500',
+        image: 'https://media.product.which.co.uk/prod/images/original/aeedbcb04e12-2apple-watch-series-9.jpg',
         stock: 30,
       },
       {
@@ -84,7 +87,8 @@ export const stores = [
         name: 'JBL Flip 6',
         price: 39.9,
         category: 'Audio',
-        image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500',
+        image:
+          'https://bf1af2.a-cdn.akinoncloud.com/products/2024/09/06/43087/cccc77bb-42e3-40f2-a3a6-3d0b4732dc23_size3840_cropCenter.jpg',
         stock: 45,
       },
       {
@@ -92,7 +96,8 @@ export const stores = [
         name: 'Samsung Wireless Charger',
         price: 19.9,
         category: 'Accessories',
-        image: 'https://images.unsplash.com/photo-1622963848537-f5f5c53301c3?w=500',
+        image:
+          'https://image-us.samsung.com/SamsungUS/home/mobile/mobile-accessories/pdp/ep-pg920ibugus/features/About+This+Product-both_121316.jpg?$feature-benefit-jpg$',
         stock: 60,
       },
       {
@@ -100,7 +105,7 @@ export const stores = [
         name: 'Razer DeathAdder V3',
         price: 34.9,
         category: 'Gaming',
-        image: 'https://images.unsplash.com/photo-1527814050087-3793815479db?w=500',
+        image: 'https://pckuwait.com/wp-content/uploads/2021/02/RZ01-03850100-R3M11111.jpg',
         stock: 40,
       },
       {
@@ -108,7 +113,8 @@ export const stores = [
         name: 'Razer BlackWidow V4',
         price: 69.9,
         category: 'Gaming',
-        image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?w=500',
+        image:
+          'https://cdn.teufelaudio.com/image/upload/v1/products/Razer/BlackWidow%20V4%20X/blackwidow-v4-x-04-cutout-1300x1300x72.jpg',
         stock: 25,
       },
     ],
@@ -118,7 +124,7 @@ export const stores = [
     name: 'Home Centre',
     category: 'Home',
     description: 'Complete home furnishing solutions',
-    logo: 'https://www.homecentre.com/assets/images/homecentre-logo.svg',
+    logo: 'https://cdn2.advanceinfotech.org/doha.directory/800x450/business/2106/untitled-1-1657273292.webp',
     items: [
       {
         id: 1,
@@ -133,7 +139,7 @@ export const stores = [
         name: 'Cushion Set',
         price: 9.9,
         category: 'Textiles',
-        image: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e6?w=500',
+        image: 'https://images-na.ssl-images-amazon.com/images/I/71dDPd3pRzL._UL500_.jpg',
         stock: 40,
       },
       {
@@ -157,7 +163,8 @@ export const stores = [
         name: 'Storage Basket Set',
         price: 14.9,
         category: 'Storage',
-        image: 'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=500',
+        image:
+          'https://img-va.myshopline.com/image/store/1714728525071/l5455-1-6b258b5b-6015-45db-8fd9-148b1f3e4557.jpeg?w=1000&h=1000',
         stock: 45,
       },
       {
@@ -175,14 +182,14 @@ export const stores = [
     name: 'Decathlon',
     category: 'Sports',
     description: 'Sports equipment and athletic wear for all',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Decathlon_Logo.svg/2560px-Decathlon_Logo.svg.png',
+    logo: 'https://contents.mediadecathlon.com/s1076164/k$0e8d905b9ca9be552feceb9116641e5a/1800x0/540pt540/1080xcr1080/default.jpg?format=auto',
     items: [
       {
         id: 1,
         name: 'Yoga Mat',
         price: 4.9,
         category: 'Yoga',
-        image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500',
+        image: 'https://www.powertrain.com.au/media/catalog/product/cache/664/90/y/m/ym-tpe-sc-gn-7.jpg',
         stock: 50,
       },
       {
@@ -190,7 +197,8 @@ export const stores = [
         name: 'Resistance Bands Set',
         price: 6.9,
         category: 'Training',
-        image: 'https://images.unsplash.com/photo-1598632640487-6ea4a5e8d6c0?w=500',
+        image:
+          'https://clenchfitness.com/cdn/shop/files/41-inch_All_Band_Photos_1080px_x_1080px_8_grande.png?v=1729701993',
         stock: 75,
       },
       {
@@ -198,7 +206,7 @@ export const stores = [
         name: 'Jump Rope',
         price: 2.9,
         category: 'Cardio',
-        image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500',
+        image: 'https://www.pro-tecathletics.com/wp-content/uploads/2022/04/Premium-Jump-Rope-product-only.jpg',
         stock: 100,
       },
       {
@@ -214,7 +222,7 @@ export const stores = [
         name: 'Sports Water Bottle',
         price: 3.9,
         category: 'Accessories',
-        image: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=500',
+        image: 'https://m.media-amazon.com/images/I/31IltCnXwAL.jpg',
         stock: 80,
       },
       {
@@ -232,7 +240,7 @@ export const stores = [
     name: 'Boots',
     category: 'Beauty',
     description: 'Your trusted beauty and wellness destination',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Boots_UK_logo.svg/2560px-Boots_UK_logo.svg.png',
+    logo: 'https://www.walgreensbootsalliance.com/sites/www/files/styles/biggest/public/2021-05/Boots%20UK%20logo.png?itok=kIwXNRt9',
     items: [
       {
         id: 1,
@@ -279,7 +287,7 @@ export const stores = [
         name: 'Olaplex Hair Care Set',
         price: 29.9,
         category: 'Hair Care',
-        image: 'https://images.unsplash.com/photo-1626015365107-476dee3d5fc4?w=500',
+        image: 'https://m.media-amazon.com/images/I/710CYkUe81L.jpg',
         stock: 30,
       },
     ],
@@ -289,7 +297,7 @@ export const stores = [
     name: 'The Sultan Center',
     category: 'Supermarket',
     description: "Kuwait's premier supermarket chain since 1981",
-    logo: 'https://www.sultan-center.com/media/logo/stores/1/TSC.png',
+    logo: 'https://scontent.fkwi12-1.fna.fbcdn.net/v/t39.30808-6/335483235_995390298512704_96309591695359171_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=GZ8fxsYfdAcQ7kNvgH9UU1B&_nc_oc=AdgWYIWsnwilEGYmvRRS55_g7FgVUGjDiVnd_Y2iD2YoQJO7I0ghVGIb5z-vmHeP8qA&_nc_zt=23&_nc_ht=scontent.fkwi12-1.fna&_nc_gid=AjrqJ08fz_zg706MBeZKEi5&oh=00_AYCCdIhSgnRng-69eCb4PkTM7ytsTFjOx5xh5B9l_e8t6g&oe=67B1728F',
     items: [
       {
         id: 1,
@@ -320,7 +328,7 @@ export const stores = [
         name: 'Premium Ajwa Dates',
         price: 9.9,
         category: 'Dried Fruits',
-        image: 'https://images.unsplash.com/photo-1587306433556-18c9f0c66f34?w=500',
+        image: 'https://www.ahlandates.com/cdn/shop/products/100063.png?v=1680860447',
         stock: 50,
       },
       {
@@ -346,12 +354,12 @@ export const stores = [
     name: 'Human Pancreas',
     category: 'Food',
     description: 'Best cookies and baked goods in the world',
-    logo: 'https://cdn.discordapp.com/attachments/1298946926691225600/1335887177095319583/image.jpg?ex=67a1cd62&is=67a07be2&hm=c76e3057a9ffd155c998589f3a07fd896180048743da2188cc12b4a0238b231b&',
+    logo: humanPancreasLogo,
     items: [
       {
         id: 1,
         name: 'Hot chocolate cookies',
-        price: 999.5,
+        price: 2.5,
         category: 'Cookies',
         image:
           'https://cdn.discordapp.com/attachments/1298946926691225600/1335886742812622900/IMG_6340.jpg?ex=67a1ccfb&is=67a07b7b&hm=d4ed0d8d97d3a13dd0f37a4b200e7730360c658039fe4230e95ddc4d9279a571&',
@@ -360,7 +368,7 @@ export const stores = [
       {
         id: 2,
         name: 'Almond croissant cookies',
-        price: 99.5,
+        price: 2.5,
         category: 'Cookies',
         image:
           'https://cdn.discordapp.com/attachments/1298946926691225600/1335886741143425055/IMG_7054_jpg.jpg?ex=67a1ccfa&is=67a07b7a&hm=ba58bc4513984e127362494c756d3bb40d06ee8832d90ffc5859939af79a6431&',
@@ -369,7 +377,7 @@ export const stores = [
       {
         id: 3,
         name: 'snickerdoodle protein pancakes',
-        price: 9999.0,
+        price: 3.5,
         category: 'Cookies',
         image:
           'https://d.rapidcdn.app/snapinsta?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3Njb250ZW50LWF0bDMtMi5jZG5pbnN0YWdyYW0uY29tL3YvdDUxLjI5MzUwLTE1LzQ1OTM2ODU5OV8xMDIxOTQwNzk2MzkxNTE0XzU0OTg4MzEyMDMzOTQ3MDM5ODJfbi5qcGc_c3RwPWRzdC1qcGdfZTM1X3A2NDB4NjQwX3NoMC4wOF90dDYmZWZnPWV5SjJaVzVqYjJSbFgzUmhaeUk2SW1sdFlXZGxYM1Z5YkdkbGJpNHhORFF3ZURFNE1EQXVjMlJ5TG1ZeU9UTTFNQzVrWldaaGRXeDBYMmx0WVdkbEluMCZfbmNfaHQ9c2NvbnRlbnQtYXRsMy0yLmNkbmluc3RhZ3JhbS5jb20mX25jX2NhdD0xMDImX25jX29oYz1sbFg0VWp1cjRkOFE3a052Z0dkSjYxcyZfbmNfZ2lkPWNiMTJiMjM4ODVjMzRhMTZhMWUwMjQ5NzVkMzdlY2I2JmVkbT1BUHMxN0NVQkFBQUEmY2NiPTctNSZvaD0wMF9BWURnTGNybVhDdkgtYzh4dUdRN3Q0anVzdHJFX1VTQUtPdExHbEdXVFNGQmZRJm9lPTY3QTY2MTI1Jl9uY19zaWQ9MTBkMTNiIiwiZmlsZW5hbWUiOiJTbmFwaW5zdC5hcHBfdGh1bWJfNDU5MzY4NTk5XzEwMjE5NDA3OTYzOTE1MTRfNTQ5ODgzMTIwMzM5NDcwMzk4Ml9uLmpwZyJ9.A7FjYXQ_hRGzWilnUEj2w5eN6IODQkHegGO2gb_dsig',

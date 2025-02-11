@@ -15,6 +15,7 @@ export default function PaymentStatus() {
 
   const status = searchParams.get('status');
   const reason = searchParams.get('reason');
+  const paymentParams = searchParams.get('paymentParams');
 
   useEffect(() => {
     if (status === 'failed' && reason) {
@@ -25,6 +26,16 @@ export default function PaymentStatus() {
       });
     }
   }, [status, reason, toast]);
+
+  const handleTryAgain = () => {
+    // If we have the original payment parameters, use them to retry
+    if (paymentParams) {
+      router.push(`/payment?${paymentParams}`);
+    } else {
+      // Fallback to just going to the payment page
+      router.push('/payment');
+    }
+  };
 
   return (
     <div className="container mx-auto flex min-h-[80vh] w-screen max-w-md items-center justify-center p-4">
@@ -42,8 +53,17 @@ export default function PaymentStatus() {
               : 'Please try again or use a different payment method'}
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex justify-center">
-          <Button onClick={() => router.push('/stores')}>Return to Stores</Button>
+        <CardContent className="flex justify-center gap-4">
+          {status === 'success' ? (
+            <Button onClick={() => router.push('/stores')}>Return to Stores</Button>
+          ) : (
+            <>
+              <Button variant="outline" onClick={() => router.push('/stores')}>
+                Return to Stores
+              </Button>
+              <Button onClick={handleTryAgain}>Try Payment Again</Button>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -185,22 +185,24 @@ export default function PaymentGateway() {
         });
         router.push('/payment-status?status=success');
       } else {
-        // Pass the decline reason to the status page
-        const searchParams = new URLSearchParams({
+        // Pass the decline reason and original payment parameters to the status page
+        const statusParams = new URLSearchParams({
           status: 'failed',
           reason: transaction.declineReason || 'Unknown error',
+          paymentParams: searchParams.toString(), // Pass original payment parameters
         });
-        router.push(`/payment-status?${searchParams.toString()}`);
+        router.push(`/payment-status?${statusParams.toString()}`);
       }
     } catch (error) {
       console.error('Payment error:', error);
 
-      // Handle API-level errors
-      const searchParams = new URLSearchParams({
+      // Handle API-level errors and pass original payment parameters
+      const statusParams = new URLSearchParams({
         status: 'failed',
         reason: error.message || 'Unknown error',
+        paymentParams: searchParams.toString(), // Pass original payment parameters
       });
-      router.push(`/payment-status?${searchParams.toString()}`);
+      router.push(`/payment-status?${statusParams.toString()}`);
     } finally {
       setIsProcessing(false);
     }
@@ -219,14 +221,14 @@ export default function PaymentGateway() {
         <CardContent>
           <Tabs defaultValue="knet" className="w-full" onValueChange={setActiveTab}>
             <TabsList className="inline-flex h-10 w-full items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
+              <TabsTrigger value="knet" className="flex-1">
+                KNET
+              </TabsTrigger>
               <TabsTrigger value="card" className="flex-1">
                 Credit Card
               </TabsTrigger>
               <TabsTrigger value="paypal" className="flex-1">
                 PayPal
-              </TabsTrigger>
-              <TabsTrigger value="knet" className="flex-1">
-                KNET
               </TabsTrigger>
             </TabsList>
 

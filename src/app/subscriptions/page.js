@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { subscriptions } from '@/data/subscriptions';
 import Link from 'next/link';
-import { ModeToggle } from '@/components/ModeToggle';
 import { Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Footer } from '@/components/Footer';
@@ -14,10 +13,10 @@ export default function SubscriptionsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       {/* Navigation */}
-      <nav className="fixed top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6">
-            <h1 className="pl-5 text-xl font-bold sm:text-2xl">Streaming Services</h1>
+      <nav className="fixed top-0 z-40 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <h1 className="text-lg font-bold sm:text-xl md:text-2xl">Streaming Services</h1>
           </div>
         </div>
       </nav>
@@ -30,7 +29,7 @@ export default function SubscriptionsPage() {
               <Link key={subscription.id} href={`/subscriptions/${subscription.id}`} className="block h-full">
                 <Card className="group h-full overflow-hidden transition-all hover:shadow-lg dark:hover:shadow-primary/10">
                   <div className={cn('relative h-24 sm:h-28', subscription.background_color)}>
-                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                    <div className="absolute inset-0 flex items-center justify-center p-4 bg-white">
                       <img src={subscription.logo} alt={subscription.name} className="h-12 w-auto object-contain" />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />

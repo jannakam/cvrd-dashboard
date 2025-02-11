@@ -25,9 +25,8 @@ export function CartSheet({ open, onOpenChange }) {
   const handleCheckout = () => {
     // Calculate totals
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const tax = subtotal * 0.05; // 5% tax
-    const shipping = subtotal > 50 ? 0 : 5; // Free shipping over $50
-    const total = subtotal + tax + shipping;
+    const shipping = subtotal > 50 ? 0 : 5; // Free shipping over 50 KD
+    const total = subtotal + shipping;
 
     // Format items with all necessary details
     const formattedItems = items.map((item) => ({
@@ -46,10 +45,9 @@ export function CartSheet({ open, onOpenChange }) {
       storeCategory: storeCategory,
 
       // Transaction totals
-      subtotal: subtotal.toFixed(2),
-      tax: tax.toFixed(2),
-      shipping: shipping.toFixed(2),
-      total: total.toFixed(2),
+      subtotal: subtotal.toFixed(3),
+      shipping: shipping.toFixed(3),
+      total: total.toFixed(3),
 
       // Detailed item information
       items: JSON.stringify(formattedItems),
@@ -118,9 +116,19 @@ export function CartSheet({ open, onOpenChange }) {
         </div>
         {items.length > 0 && (
           <div className="mt-auto space-y-4 border-t py-4">
-            <div className="flex items-center justify-between">
-              <span className="font-medium">Total</span>
-              <span className="font-bold">{formatPrice(getTotal())}</span>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span>{formatPrice(getTotal())}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Shipping</span>
+                <span>{formatPrice(getTotal() > 50 ? 0 : 5)}</span>
+              </div>
+              <div className="flex items-center justify-between pt-4 font-medium">
+                <span>Total</span>
+                <span>{formatPrice(getTotal() + (getTotal() > 50 ? 0 : 5))}</span>
+              </div>
             </div>
             <Button className="w-full" onClick={handleCheckout}>
               Checkout

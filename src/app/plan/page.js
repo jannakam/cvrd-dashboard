@@ -115,7 +115,7 @@ export default function PlanPage() {
                     <div>
                       <h2 className="text-2xl font-bold">{plan.name}</h2>
                       <div className="mt-4 flex items-baseline">
-                        <span className="text-3xl font-bold">${plan.price}</span>
+                        <span className="text-3xl font-bold">KWD {plan.price}</span>
                         <span className="ml-1 text-muted-foreground">/month</span>
                       </div>
                     </div>

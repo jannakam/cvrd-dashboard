@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -7,8 +7,12 @@ import { formatCardNumber, formatExpiryDate, formatPrice } from '@/lib/payment-u
 
 const banks = [
   {
+    name: 'CVRD',
+    prefixes: ['470735'],
+  },
+  {
     name: 'Boubyan Bank',
-    prefixes: ['470735' ,'470350', '490455', '490456'],
+    prefixes: ['470735', '470350', '490455', '490456'],
   },
   {
     name: 'Kuwait Finance House',
@@ -73,6 +77,15 @@ export function CVRDForm({
     const formattedValue = formatExpiryDate(e.target.value);
     setExpiryDate(formattedValue);
   };
+
+  // Set the card prefix to 470735 if the bank is CVRD
+  useEffect(() => {
+    if (selectedBank?.toLowerCase() === 'cvrd') {
+      setCardPrefix('470735');
+    } else {
+      setCardPrefix('');
+    }
+  }, [selectedBank, setCardPrefix]);
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
