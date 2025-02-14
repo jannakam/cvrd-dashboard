@@ -8,7 +8,7 @@ import { Store, CreditCard } from 'lucide-react';
 
 export default function HomePage() {
   const router = useRouter();
-  const { logout } = useAuth();
+  
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -17,9 +17,6 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <h1 className="text-lg font-bold sm:text-xl md:text-2xl">CVRD Dashboard</h1>
-            <Button variant="outline" onClick={logout}>
-              Logout
-            </Button>
           </div>
         </div>
       </nav>
