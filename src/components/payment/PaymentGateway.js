@@ -23,9 +23,22 @@ export default function PaymentGateway() {
   const searchParams = useSearchParams();
   const createTransaction = useCreateTransaction();
 
-  const total = searchParams.get('total') || '0';
-  const service = searchParams.get('service');
-  const plan = searchParams.get('plan');
+  const total = searchParams?.get('total') || '0';
+  const service = searchParams?.get('service') || '';
+  const plan = searchParams?.get('plan') || '';
+
+  // Safely parse items with error handling
+  const getItems = () => {
+    try {
+      const itemsParam = searchParams?.get('items');
+      return itemsParam ? JSON.parse(decodeURIComponent(itemsParam)) : [];
+    } catch (error) {
+      console.error('Error parsing items:', error);
+      return [];
+    }
+  };
+
+  const items = getItems();
 
   // Card payment state
   const [cardNumber, setCardNumber] = useState('');
@@ -111,7 +124,6 @@ export default function PaymentGateway() {
       const transactionType = service ? 'SUBSCRIPTION' : 'STORE_PURCHASE';
 
       // Parse items and ensure all values are properly typed
-      const items = JSON.parse(decodeURIComponent(searchParams.get('items') || '[]'));
       console.log('Parsed items:', items);
 
       const transactionDetails = service
