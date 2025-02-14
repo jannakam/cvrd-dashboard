@@ -17,6 +17,7 @@ export const subscriptions = [
     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=1000',
     background_color: 'bg-inherit',
+    merchantCategory: 'Entertainment',
     categories: ['Movies', 'TV Shows', 'Kids', 'Documentaries'],
     ...generateServiceContent('netflix'),
     plans: [
@@ -47,6 +48,7 @@ export const subscriptions = [
     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/2560px-Disney%2B_logo.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1604548530945-f33c0c298028?w=1000',
     background_color: 'bg-blue-600',
+    merchantCategory: 'Entertainment',
     categories: ['Disney', 'Pixar', 'Marvel', 'Star Wars', 'National Geographic'],
     ...generateServiceContent('disney-plus'),
     plans: [
@@ -77,6 +79,7 @@ export const subscriptions = [
     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Amazon_Prime_logo_%282024%29.svg/2560px-Amazon_Prime_logo_%282024%29.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?w=1000',
     background_color: 'bg-blue-500',
+    merchantCategory: 'Entertainment',
     categories: ['Movies', 'TV Shows', 'Amazon Originals', 'Kids'],
     ...generateServiceContent('prime-video'),
     plans: [
@@ -107,6 +110,7 @@ export const subscriptions = [
     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/HBO_Max_Logo.svg/1000px-HBO_Max_Logo.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=1000',
     background_color: 'bg-purple-600',
+    merchantCategory: 'Entertainment',
     categories: ['HBO Originals', 'DC', 'Movies', 'Series'],
     ...generateServiceContent('hbo-max'),
     plans: [
@@ -137,6 +141,7 @@ export const subscriptions = [
     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Apple_TV_Plus_Logo.svg/1024px-Apple_TV_Plus_Logo.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1528928441742-b4ccac1bb04c?w=1000',
     background_color: 'bg-gray-800',
+    merchantCategory: 'Entertainment',
     categories: ['Apple Originals', 'Movies', 'Kids & Family', 'Documentaries'],
     ...generateServiceContent('apple-tv'),
     plans: [
@@ -167,6 +172,7 @@ export const subscriptions = [
     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Hulu_logo_%282017%29.svg/2560px-Hulu_logo_%282017%29.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1586899028174-e7098604235b?w=1000',
     background_color: 'bg-green-600',
+    merchantCategory: 'Entertainment',
     categories: ['TV Shows', 'Movies', 'Hulu Originals', 'FX'],
     ...generateServiceContent('hulu'),
     plans: [
@@ -194,9 +200,10 @@ export const subscriptions = [
     id: 'paramount-plus',
     name: 'Paramount+',
     description: 'Stream live sports, breaking news, and a mountain of entertainment',
-    logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1e/Paramount_Global.svg/1200px-Paramount_Global.svg.png',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Paramount_Plus.svg/1600px-Paramount_Plus.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=1000',
     background_color: 'bg-blue-800',
+    merchantCategory: 'Entertainment',
     categories: ['Movies', 'TV Shows', 'Sports', 'News'],
     ...generateServiceContent('paramount-plus'),
     plans: [
@@ -227,6 +234,7 @@ export const subscriptions = [
     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Crunchyroll.svg/2560px-Crunchyroll.svg.png',
     hero_image: 'https://images.unsplash.com/photo-1541562232579-512a21360020?w=1000',
     background_color: 'bg-orange-500',
+    merchantCategory: 'Entertainment',
     categories: ['Anime', 'Manga', 'Drama', 'Simulcast'],
     ...generateServiceContent('crunchyroll'),
     plans: [

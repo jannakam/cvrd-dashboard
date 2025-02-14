@@ -4,7 +4,7 @@ export const stores = [
   {
     id: 'h-and-m',
     name: 'H&M',
-    category: 'Clothing',
+    category: 'Shopping',
     description: 'Fashion and quality clothing at the best price',
     logo: 'https://enixc.com/wp-content/uploads/2020/05/1-25.jpg',
     items: [
@@ -122,7 +122,7 @@ export const stores = [
   {
     id: 'home-centre',
     name: 'Home Centre',
-    category: 'Home',
+    category: 'Furniture',
     description: 'Complete home furnishing solutions',
     logo: 'https://cdn2.advanceinfotech.org/doha.directory/800x450/business/2106/untitled-1-1657273292.webp',
     items: [
@@ -180,7 +180,7 @@ export const stores = [
   {
     id: 'decathlon',
     name: 'Decathlon',
-    category: 'Sports',
+    category: 'Shopping',
     description: 'Sports equipment and athletic wear for all',
     logo: 'https://contents.mediadecathlon.com/s1076164/k$0e8d905b9ca9be552feceb9116641e5a/1800x0/540pt540/1080xcr1080/default.jpg?format=auto',
     items: [
@@ -238,7 +238,7 @@ export const stores = [
   {
     id: 'boots',
     name: 'Boots',
-    category: 'Beauty',
+    category: 'Health',
     description: 'Your trusted beauty and wellness destination',
     logo: 'https://www.walgreensbootsalliance.com/sites/www/files/styles/biggest/public/2021-05/Boots%20UK%20logo.png?itok=kIwXNRt9',
     items: [
@@ -295,7 +295,7 @@ export const stores = [
   {
     id: 'sultan-center',
     name: 'The Sultan Center',
-    category: 'Supermarket',
+    category: 'Groceries',
     description: "Kuwait's premier supermarket chain since 1981",
     logo: 'https://scontent.fkwi12-1.fna.fbcdn.net/v/t39.30808-6/335483235_995390298512704_96309591695359171_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=GZ8fxsYfdAcQ7kNvgH9UU1B&_nc_oc=AdgWYIWsnwilEGYmvRRS55_g7FgVUGjDiVnd_Y2iD2YoQJO7I0ghVGIb5z-vmHeP8qA&_nc_zt=23&_nc_ht=scontent.fkwi12-1.fna&_nc_gid=AjrqJ08fz_zg706MBeZKEi5&oh=00_AYCCdIhSgnRng-69eCb4PkTM7ytsTFjOx5xh5B9l_e8t6g&oe=67B1728F',
     items: [

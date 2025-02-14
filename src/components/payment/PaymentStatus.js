@@ -55,11 +55,11 @@ export default function PaymentStatus() {
         </CardHeader>
         <CardContent className="flex justify-center gap-4">
           {status === 'success' ? (
-            <Button onClick={() => router.push('/stores')}>Return to Stores</Button>
+            <Button onClick={() => router.push('/')}>Return to Home</Button>
           ) : (
             <>
-              <Button variant="outline" onClick={() => router.push('/stores')}>
-                Return to Stores
+              <Button variant="outline" onClick={() => router.push('/')}>
+                Return to Home
               </Button>
               <Button onClick={handleTryAgain}>Try Payment Again</Button>
             </>

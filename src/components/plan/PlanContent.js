@@ -43,7 +43,8 @@ export default function PlanContent() {
       // Service details
       service: subscription.id,
       serviceName: subscription.name,
-      serviceCategory: subscription.categories[0] || '',
+      serviceCategory: subscription.merchantCategory,
+      merchantCategory: subscription.merchantCategory,
 
       // Plan details
       plan: plan.name,
