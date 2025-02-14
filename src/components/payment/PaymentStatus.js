@@ -13,9 +13,9 @@ export default function PaymentStatus() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const status = searchParams.get('status');
-  const reason = searchParams.get('reason');
-  const paymentParams = searchParams.get('paymentParams');
+  const status = searchParams?.get('status') || 'failed';
+  const reason = searchParams?.get('reason') || 'Unknown error';
+  const paymentParams = searchParams?.get('paymentParams') || '';
 
   useEffect(() => {
     if (status === 'failed' && reason) {
