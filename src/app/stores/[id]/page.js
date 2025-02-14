@@ -11,16 +11,18 @@ function StoreNavbar({ store }) {
     <nav className="fixed top-0 z-40 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-4 sm:gap-6">
-            <div>
+          <div className="flex min-w-0 flex-1 items-center gap-4 sm:gap-6">
+            <div className="min-w-0 flex-1">
               <h1 className="truncate text-lg font-bold sm:text-xl md:text-2xl">{store.name}</h1>
-              <p className="mt-0.5 hidden text-sm text-muted-foreground sm:block">{store.description}</p>
+              <p className="mt-0.5 hidden truncate text-sm text-muted-foreground sm:block">{store.description}</p>
             </div>
-            <Badge variant="secondary" className="h-fit">
+            <Badge variant="secondary" className="flex-shrink-0">
               {store.category}
             </Badge>
           </div>
-          <CartSheet />
+          <div className="ml-4 flex-shrink-0">
+            <CartSheet />
+          </div>
         </div>
       </div>
     </nav>

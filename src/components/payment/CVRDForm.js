@@ -131,9 +131,9 @@ export function CVRDForm({
             className="w-2/3"
             type="text"
             placeholder="Remaining card number"
-            value={formatCardNumber(cardNumber)}
+            value={formatCardNumber(cardNumber, true)}
             onChange={(e) => setCardNumber(e.target.value)}
-            maxLength="14"
+            maxLength="12"
             disabled={!cardPrefix}
           />
         </div>

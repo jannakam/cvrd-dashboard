@@ -42,7 +42,7 @@ export function CartSheet({ open, onOpenChange }) {
     const searchParams = new URLSearchParams({
       // Store details
       storeName: storeName,
-      storeCategory: storeCategory,
+      merchantCategory: storeCategory,
 
       // Transaction totals
       subtotal: subtotal.toFixed(3),

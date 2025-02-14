@@ -1,6 +1,22 @@
-export const formatCardNumber = (value) => {
+export const formatCardNumber = (value, isKNET = false) => {
   if (!value) return value;
   const cleanValue = value.replace(/\D/g, '');
+
+  if (isKNET) {
+    // For KNET cards, format remaining numbers as 2-4-4
+    if (cleanValue.length <= 2) {
+      return cleanValue;
+    }
+    if (cleanValue.length <= 6) {
+      return `${cleanValue.slice(0, 2)} ${cleanValue.slice(2)}`;
+    }
+    if (cleanValue.length <= 10) {
+      return `${cleanValue.slice(0, 2)} ${cleanValue.slice(2, 6)} ${cleanValue.slice(6)}`;
+    }
+    return `${cleanValue.slice(0, 2)} ${cleanValue.slice(2, 6)} ${cleanValue.slice(6, 10)}`;
+  }
+
+  // For regular credit cards, format as 4-4-4-4
   const groups = cleanValue.match(/.{1,4}/g) || [];
   return groups.join(' ');
 };
@@ -11,13 +27,33 @@ export const formatExpiryDate = (value) => {
   // Remove any non-digit characters
   const cleanValue = value.replace(/\D/g, '');
 
-  // Handle backspace when removing the forward slash
-  if (cleanValue.length <= 2) {
+  // Handle first digit of month
+  if (cleanValue.length === 1) {
+    if (parseInt(cleanValue) > 1) {
+      // If first digit is greater than 1, prepend 0
+      return `0${cleanValue}`;
+    }
     return cleanValue;
   }
 
-  // Format as MM/YY
-  return `${cleanValue.slice(0, 2)}/${cleanValue.slice(2, 4)}`;
+  // Handle second digit of month
+  if (cleanValue.length === 2) {
+    const month = parseInt(cleanValue);
+    if (month > 12) {
+      // If month is greater than 12, keep only first digit
+      return cleanValue[0];
+    }
+    return cleanValue;
+  }
+
+  // Handle month/year format
+  if (cleanValue.length >= 3) {
+    const month = cleanValue.slice(0, 2);
+    const year = cleanValue.slice(2, 4);
+    return `${month}/${year}`;
+  }
+
+  return cleanValue;
 };
 
 export const formatPrice = (value) => {
@@ -94,6 +130,7 @@ export const generateTransactionDescription = (type, details) => {
         type: 'SUBSCRIPTION',
         merchant: {
           name: details.service,
+          category: details.merchantCategory || 'Streaming Service',
           location: {
             latitude: details.latitude || null,
             longitude: details.longitude || null,
@@ -105,11 +142,13 @@ export const generateTransactionDescription = (type, details) => {
           billingCycle: details.billingCycle || 'monthly',
           devices: details.devices || 1,
           quality: details.quality || 'HD',
+          features: details.features?.split(',') || [],
         },
         payment: {
           method: details.paymentMethod || 'Card',
-          total: details.amount,
+          total: parseFloat(details.amount || 0).toFixed(3),
           currency: 'KWD',
+          isRecurring: true,
         },
       });
     } else if (type === 'STORE_PURCHASE') {
@@ -118,9 +157,14 @@ export const generateTransactionDescription = (type, details) => {
         id: item.id,
         name: item.name,
         quantity: parseInt(item.quantity) || 1,
-        unitPrice: parseFloat(item.price),
-        totalPrice: parseFloat(item.totalItemPrice || item.price * item.quantity),
+        unitPrice: parseFloat(item.price).toFixed(3),
+        totalPrice: parseFloat(item.totalItemPrice || item.price * item.quantity).toFixed(3),
         category: item.category || 'General',
+        details: {
+          image: item.image || null,
+          description: item.description || null,
+          stock: item.stock || null,
+        },
       }));
 
       description = JSON.stringify({
@@ -138,6 +182,7 @@ export const generateTransactionDescription = (type, details) => {
         itemsSummary: {
           count: formattedItems.length,
           totalItems: formattedItems.reduce((sum, item) => sum + item.quantity, 0),
+          categories: [...new Set(formattedItems.map((item) => item.category))],
         },
         payment: {
           method: details.paymentMethod || 'Card',
@@ -145,6 +190,7 @@ export const generateTransactionDescription = (type, details) => {
           shipping: parseFloat(details.shipping || 0).toFixed(3),
           total: parseFloat(details.amount || 0).toFixed(3),
           currency: 'KWD',
+          isRecurring: false,
         },
       });
 
@@ -169,6 +215,7 @@ export const generateTransactionDescription = (type, details) => {
           method: details.paymentMethod || 'Card',
           amount: parseFloat(details.amount || 0).toFixed(3),
           currency: 'KWD',
+          isRecurring: false,
         },
       });
     }

@@ -112,12 +112,38 @@ export default function PaymentGateway() {
 
       try {
         const position = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
+          if (!navigator.geolocation) {
+            console.log('Geolocation is not supported by this browser/device');
+            resolve({ coords: { latitude: null, longitude: null } });
+            return;
+          }
+
+          navigator.geolocation.getCurrentPosition(
+            (pos) => resolve(pos),
+            (err) => {
+              console.warn('Geolocation error:', err.message);
+              resolve({ coords: { latitude: null, longitude: null } });
+            },
+            {
+              timeout: 10000, // 10 second timeout
+              maximumAge: 5 * 60 * 1000, // Accept cached positions up to 5 minutes old
+              enableHighAccuracy: false, // Don't need high accuracy for payment processing
+            }
+          );
         });
+
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
+
+        console.log('Location obtained:', { latitude, longitude });
       } catch (error) {
-        console.log('Location not available:', error);
+        console.warn('Location error:', {
+          message: error.message,
+          code: error.code,
+        });
+        // Continue with null coordinates
+        latitude = null;
+        longitude = null;
       }
 
       // Prepare transaction details
