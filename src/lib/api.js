@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from '@/hooks/use-toast';
 
 const api = axios.create({
-  baseURL: 'http://172.20.10.8:8080',
+  baseURL: 'http://localhost:8080',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
