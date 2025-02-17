@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useGeolocated } from 'react-geolocated';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
@@ -22,6 +23,53 @@ export default function PaymentGateway() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const createTransaction = useCreateTransaction();
+
+  const [locationStatus, setLocationStatus] = useState('loading');
+
+  const { coords, isGeolocationAvailable, isGeolocationEnabled, positionError, getPosition } = useGeolocated({
+    positionOptions: {
+      enableHighAccuracy: false,
+      maximumAge: 300000, // 5 minutes
+    },
+    watchPosition: true,
+    userDecisionTimeout: 10000,
+    onError: (error) => {
+      console.log('Geolocation error:', error);
+      setLocationStatus('error');
+    },
+    onSuccess: (position) => {
+      console.log('Location obtained:', position);
+      setLocationStatus('success');
+    },
+  });
+
+  // Monitor geolocation state changes
+  useEffect(() => {
+    if (!isGeolocationAvailable) {
+      setLocationStatus('error');
+      return;
+    }
+
+    if (!isGeolocationEnabled) {
+      setLocationStatus('error');
+      return;
+    }
+
+    if (positionError) {
+      setLocationStatus('error');
+      return;
+    }
+
+    if (coords) {
+      setLocationStatus('success');
+    }
+  }, [isGeolocationAvailable, isGeolocationEnabled, coords, positionError]);
+
+  // Add retry button handler
+  const handleRetryLocation = () => {
+    setLocationStatus('loading');
+    getPosition();
+  };
 
   const total = searchParams?.get('total') || '0';
   const service = searchParams?.get('service') || '';
@@ -60,11 +108,6 @@ export default function PaymentGateway() {
       window.location.href = 'https://www.paypal.com/signin';
     } catch (error) {
       console.error('PayPal error:', error);
-      toast({
-        variant: 'outline',
-        title: 'Redirect Failed',
-        description: 'Failed to redirect to PayPal. Please try again.',
-      });
     } finally {
       setIsProcessing(false);
     }
@@ -84,67 +127,29 @@ export default function PaymentGateway() {
       isValid = validateCardPayment(cardNumber, expiryDate, cvv);
     } else if (activeTab === 'knet') {
       if (!selectedBank || !cardPrefix || !cardNumber || !expiryDate || !cvv) {
-        toast({
-          variant: 'outline',
-          title: 'Validation Error',
-          description: 'Please fill in all required fields.',
-        });
         return;
       }
       isValid = validateCVRDPayment(cardNumber, expiryDate, cvv, selectedBank, cardPrefix);
     }
 
     if (!isValid) {
-      toast({
-        variant: 'outline',
-        title: 'Validation Error',
-        description: 'Please check all fields and try again.',
-      });
+      return;
+    }
+
+    // Check if location is available
+    if (!coords) {
       return;
     }
 
     setIsProcessing(true);
 
     try {
-      // Get user's current location for location-based cards
-      let latitude = null;
-      let longitude = null;
+      const latitude = coords.latitude;
+      const longitude = coords.longitude;
 
-      try {
-        const position = await new Promise((resolve, reject) => {
-          if (!navigator.geolocation) {
-            console.log('Geolocation is not supported by this browser/device');
-            resolve({ coords: { latitude: null, longitude: null } });
-            return;
-          }
-
-          navigator.geolocation.getCurrentPosition(
-            (pos) => resolve(pos),
-            (err) => {
-              console.warn('Geolocation error:', err.message);
-              resolve({ coords: { latitude: null, longitude: null } });
-            },
-            {
-              timeout: 10000, // 10 second timeout
-              maximumAge: 5 * 60 * 1000, // Accept cached positions up to 5 minutes old
-              enableHighAccuracy: false, // Don't need high accuracy for payment processing
-            }
-          );
-        });
-
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-
-        console.log('Location obtained:', { latitude, longitude });
-      } catch (error) {
-        console.warn('Location error:', {
-          message: error.message,
-          code: error.code,
-        });
-        // Continue with null coordinates
-        latitude = null;
-        longitude = null;
-      }
+      console.log('Location obtained:', { latitude, longitude });
+      console.log('GeoState:', coords);
+      console.log('GeoState JSON:', JSON.stringify(coords));
 
       // Prepare transaction details
       const transactionType = service ? 'SUBSCRIPTION' : 'STORE_PURCHASE';
@@ -247,7 +252,7 @@ export default function PaymentGateway() {
   };
 
   return (
-    <div className="container mx-auto flex min-h-[80vh] w-screen max-w-3xl items-center justify-center p-4">
+    <div className="container mx-auto flex min-h-[80vh] w-screen max-w-3xl flex-col items-center justify-center gap-4 p-4 py-10">
       <Card className="w-[450px]">
         <CardHeader className="space-y-4 text-center">
           <div className="rounded-lg bg-primary/5 p-6">
@@ -307,13 +312,53 @@ export default function PaymentGateway() {
             </TabsContent>
           </Tabs>
         </CardContent>
-        <CardFooter className="justify-center text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
+        <CardFooter className="flex-col space-y-2">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <div className="h-1 w-1 rounded-full bg-green-500"></div>
             Your payment information is secure and encrypted
           </div>
         </CardFooter>
       </Card>
+      {/* Location Status Indicator */}
+      <div className="flex items-center justify-center gap-2 text-xs">
+        {!isGeolocationAvailable ? (
+          <div className="flex items-center gap-1 text-destructive">
+            <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            Location services not supported
+          </div>
+        ) : !isGeolocationEnabled ? (
+          <button onClick={handleRetryLocation} className="flex items-center gap-1 text-primary hover:underline">
+            <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+            Enable location for enhanced security
+          </button>
+        ) : locationStatus === 'loading' ? (
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <div className="h-3 w-3 animate-spin rounded-full border border-primary border-t-transparent"></div>
+            Verifying location...
+          </div>
+        ) : locationStatus === 'error' ? (
+          <button onClick={handleRetryLocation} className="flex items-center gap-1 text-destructive hover:underline">
+            <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M1 4v6h6" />
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+            </svg>
+            Retry location verification
+          </button>
+        ) : (
+          <div className="flex items-center gap-1 text-green-600">
+            <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+            Location verified
+          </div>
+        )}
+      </div>
     </div>
   );
 }

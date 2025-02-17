@@ -1,4 +1,5 @@
 import humanPancreasLogo from '/public/assets/logos/human-pancreas-logo.jpeg';
+import backyardLogo from '/public/assets/logos/backyard-logo.png';
 
 export const stores = [
   {
@@ -382,6 +383,63 @@ export const stores = [
         image:
           'https://d.rapidcdn.app/snapinsta?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3Njb250ZW50LWF0bDMtMi5jZG5pbnN0YWdyYW0uY29tL3YvdDUxLjI5MzUwLTE1LzQ1OTM2ODU5OV8xMDIxOTQwNzk2MzkxNTE0XzU0OTg4MzEyMDMzOTQ3MDM5ODJfbi5qcGc_c3RwPWRzdC1qcGdfZTM1X3A2NDB4NjQwX3NoMC4wOF90dDYmZWZnPWV5SjJaVzVqYjJSbFgzUmhaeUk2SW1sdFlXZGxYM1Z5YkdkbGJpNHhORFF3ZURFNE1EQXVjMlJ5TG1ZeU9UTTFNQzVrWldaaGRXeDBYMmx0WVdkbEluMCZfbmNfaHQ9c2NvbnRlbnQtYXRsMy0yLmNkbmluc3RhZ3JhbS5jb20mX25jX2NhdD0xMDImX25jX29oYz1sbFg0VWp1cjRkOFE3a052Z0dkSjYxcyZfbmNfZ2lkPWNiMTJiMjM4ODVjMzRhMTZhMWUwMjQ5NzVkMzdlY2I2JmVkbT1BUHMxN0NVQkFBQUEmY2NiPTctNSZvaD0wMF9BWURnTGNybVhDdkgtYzh4dUdRN3Q0anVzdHJFX1VTQUtPdExHbEdXVFNGQmZRJm9lPTY3QTY2MTI1Jl9uY19zaWQ9MTBkMTNiIiwiZmlsZW5hbWUiOiJTbmFwaW5zdC5hcHBfdGh1bWJfNDU5MzY4NTk5XzEwMjE5NDA3OTYzOTE1MTRfNTQ5ODgzMTIwMzM5NDcwMzk4Ml9uLmpwZyJ9.A7FjYXQ_hRGzWilnUEj2w5eN6IODQkHegGO2gb_dsig',
         stock: 15,
+      },
+    ],
+  },
+  {
+    id: 'backyard',
+    name: 'Backyard',
+    category: 'Restaurant',
+    description: 'A cozy outdoor dining experience with delicious food',
+    logo: backyardLogo,
+    items: [
+      {
+        id: 1,
+        name: 'Classic Burger',
+        price: 8.9,
+        category: 'Burgers',
+        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500',
+        stock: 50,
+      },
+      {
+        id: 2,
+        name: 'Grilled Chicken Salad',
+        price: 7.5,
+        category: 'Salads',
+        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500',
+        stock: 40,
+      },
+      {
+        id: 3,
+        name: 'BBQ Ribs',
+        price: 15.9,
+        category: 'BBQ',
+        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500',
+        stock: 30,
+      },
+      {
+        id: 4,
+        name: 'Seafood Pasta',
+        price: 12.9,
+        category: 'Pasta',
+        image: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=500',
+        stock: 35,
+      },
+      {
+        id: 5,
+        name: 'Garden Pizza',
+        price: 10.9,
+        category: 'Pizza',
+        image: 'https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?w=500',
+        stock: 45,
+      },
+      {
+        id: 6,
+        name: 'Chocolate Lava Cake',
+        price: 5.9,
+        category: 'Desserts',
+        image: 'https://images.unsplash.com/photo-1602351447937-745cb720612f?w=500',
+        stock: 25,
       },
     ],
   },
