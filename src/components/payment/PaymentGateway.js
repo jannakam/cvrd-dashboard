@@ -136,11 +136,6 @@ export default function PaymentGateway() {
       return;
     }
 
-    // Check if location is available
-    if (!coords) {
-      return;
-    }
-
     setIsProcessing(true);
 
     try {

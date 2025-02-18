@@ -8,7 +8,6 @@ import { Store, CreditCard } from 'lucide-react';
 
 export default function HomePage() {
   const router = useRouter();
-  
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -29,7 +28,7 @@ export default function HomePage() {
             <p className="text-lg text-muted-foreground">Choose your destination to get started</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 pt-8 md:grid-cols-2 max-sm:px-4">
+          <div className="grid grid-cols-1 gap-6 pt-8 max-sm:px-4 md:grid-cols-2">
             {/* Stores Card */}
             <Card
               className="group cursor-pointer transition-all duration-200 hover:shadow-lg"
