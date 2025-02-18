@@ -139,8 +139,8 @@ export default function PaymentGateway() {
     setIsProcessing(true);
 
     try {
-      const latitude = coords.latitude;
-      const longitude = coords.longitude;
+      const latitude = coords?.latitude ?? null;
+      const longitude = coords?.longitude ?? null;
 
       console.log('Location obtained:', { latitude, longitude });
       console.log('GeoState:', coords);
