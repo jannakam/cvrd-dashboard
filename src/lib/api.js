@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { toast } from '@/hooks/use-toast';
 
-const baseURL = process.env.BACKEND_URL || 'http://146.190.206.232:8080';
+const baseURL = process.env.BACKEND_URL || 'https://cvrd-be.mshl.me';
 
 const api = axios.create({
   baseURL: baseURL,
