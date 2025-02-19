@@ -298,7 +298,7 @@ export const stores = [
     name: 'The Sultan Center',
     category: 'Groceries',
     description: "Kuwait's premier supermarket chain since 1981",
-    logo: 'https://scontent.fkwi12-1.fna.fbcdn.net/v/t39.30808-6/335483235_995390298512704_96309591695359171_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=GZ8fxsYfdAcQ7kNvgH9UU1B&_nc_oc=AdgWYIWsnwilEGYmvRRS55_g7FgVUGjDiVnd_Y2iD2YoQJO7I0ghVGIb5z-vmHeP8qA&_nc_zt=23&_nc_ht=scontent.fkwi12-1.fna&_nc_gid=AjrqJ08fz_zg706MBeZKEi5&oh=00_AYCCdIhSgnRng-69eCb4PkTM7ytsTFjOx5xh5B9l_e8t6g&oe=67B1728F',
+    logo: 'https://ff695b5dd2960f41cb75835a324f0804.r2.cloudflarestorage.com/drp-cl/thumbs/56aaa73b-5889-419c-8ed4-0fcb6ad5b00d/f2a4e365-5ce7-43ae-8da3-a11fd65a5697/d3bcc80d-649b-4cfb-bb95-5e5159aa9199.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fed7aac277aea51eca0c294ada409f61%2F20250219%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20250219T193220Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=3850dde6978ab87da20636256c7b22dd253284f69317b2bc268d6f6b51c86c5c',
     items: [
       {
         id: 1,
@@ -363,7 +363,7 @@ export const stores = [
         price: 2.5,
         category: 'Cookies',
         image:
-          'https://cdn.discordapp.com/attachments/1298946926691225600/1335886742812622900/IMG_6340.jpg?ex=67a1ccfb&is=67a07b7b&hm=d4ed0d8d97d3a13dd0f37a4b200e7730360c658039fe4230e95ddc4d9279a571&',
+          'https://ff695b5dd2960f41cb75835a324f0804.r2.cloudflarestorage.com/drp-cl/thumbs/55e6b32c-1bf1-45f0-9d16-17cd4e0e048d/cb5c817e-0831-40db-8df4-ea64b510af25/9891214e-f53f-4d9a-909b-d58d9ddc373d.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fed7aac277aea51eca0c294ada409f61%2F20250219%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20250219T193547Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=0c79d249e54a2cfbabd01ee372600dc47fd39139875f36af0098d6d9d3bbaa99',
         stock: 15,
       },
       {
@@ -372,16 +372,16 @@ export const stores = [
         price: 2.5,
         category: 'Cookies',
         image:
-          'https://cdn.discordapp.com/attachments/1298946926691225600/1335886741143425055/IMG_7054_jpg.jpg?ex=67a1ccfa&is=67a07b7a&hm=ba58bc4513984e127362494c756d3bb40d06ee8832d90ffc5859939af79a6431&',
+          'https://ff695b5dd2960f41cb75835a324f0804.r2.cloudflarestorage.com/drp-cl/thumbs/56aaa73b-5889-419c-8ed4-0fcb6ad5b00d/a98dfd5e-1f46-487c-b9fc-ff8104282886/e90abab1-3368-4e61-8897-dd17360aed44.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fed7aac277aea51eca0c294ada409f61%2F20250219%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20250219T193220Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=43916c6c792bb838e29057fe54c4301fe533537ac95af41603c6ed27ee7f1d9c',
         stock: 15,
       },
       {
         id: 3,
-        name: 'snickerdoodle protein pancakes',
+        name: 'Snickerdoodle protein pancakes',
         price: 3.5,
         category: 'Cookies',
         image:
-          'https://d.rapidcdn.app/snapinsta?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3Njb250ZW50LWF0bDMtMi5jZG5pbnN0YWdyYW0uY29tL3YvdDUxLjI5MzUwLTE1LzQ1OTM2ODU5OV8xMDIxOTQwNzk2MzkxNTE0XzU0OTg4MzEyMDMzOTQ3MDM5ODJfbi5qcGc_c3RwPWRzdC1qcGdfZTM1X3A2NDB4NjQwX3NoMC4wOF90dDYmZWZnPWV5SjJaVzVqYjJSbFgzUmhaeUk2SW1sdFlXZGxYM1Z5YkdkbGJpNHhORFF3ZURFNE1EQXVjMlJ5TG1ZeU9UTTFNQzVrWldaaGRXeDBYMmx0WVdkbEluMCZfbmNfaHQ9c2NvbnRlbnQtYXRsMy0yLmNkbmluc3RhZ3JhbS5jb20mX25jX2NhdD0xMDImX25jX29oYz1sbFg0VWp1cjRkOFE3a052Z0dkSjYxcyZfbmNfZ2lkPWNiMTJiMjM4ODVjMzRhMTZhMWUwMjQ5NzVkMzdlY2I2JmVkbT1BUHMxN0NVQkFBQUEmY2NiPTctNSZvaD0wMF9BWURnTGNybVhDdkgtYzh4dUdRN3Q0anVzdHJFX1VTQUtPdExHbEdXVFNGQmZRJm9lPTY3QTY2MTI1Jl9uY19zaWQ9MTBkMTNiIiwiZmlsZW5hbWUiOiJTbmFwaW5zdC5hcHBfdGh1bWJfNDU5MzY4NTk5XzEwMjE5NDA3OTYzOTE1MTRfNTQ5ODgzMTIwMzM5NDcwMzk4Ml9uLmpwZyJ9.A7FjYXQ_hRGzWilnUEj2w5eN6IODQkHegGO2gb_dsig',
+          'https://ff695b5dd2960f41cb75835a324f0804.r2.cloudflarestorage.com/drp-cl/thumbs/56aaa73b-5889-419c-8ed4-0fcb6ad5b00d/1d4061a4-7efd-43d4-898a-dd621c34e7ba/18729dab-4d35-4d95-a7bf-7f67082ef713.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fed7aac277aea51eca0c294ada409f61%2F20250219%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20250219T193220Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=0bd894f08cf6451cf651753844ee174452b6aeaf908a817cca7fcbbea9ba630f',
         stock: 15,
       },
     ],
