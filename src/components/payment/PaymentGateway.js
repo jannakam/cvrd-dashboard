@@ -136,11 +136,16 @@ export default function PaymentGateway() {
       return;
     }
 
+    // Check if location is available
+    if (!coords) {
+      return;
+    }
+
     setIsProcessing(true);
 
     try {
-      const latitude = coords?.latitude ?? null;
-      const longitude = coords?.longitude ?? null;
+      const latitude = coords.latitude;
+      const longitude = coords.longitude;
 
       console.log('Location obtained:', { latitude, longitude });
       console.log('GeoState:', coords);
@@ -247,25 +252,25 @@ export default function PaymentGateway() {
   };
 
   return (
-    <div className="container mx-auto flex min-h-[80vh] w-screen max-w-3xl flex-col items-center justify-center gap-4 p-4 py-10">
-      <Card className="w-[450px]">
+    <div className="container mx-auto flex min-h-[80vh] w-full max-w-3xl flex-col items-center justify-center gap-4 px-8 py-24 sm:py-10">
+      <Card className="mx-4 w-full max-w-[450px] sm:mx-0">
         <CardHeader className="space-y-4 text-center">
-          <div className="rounded-lg bg-primary/5 p-6">
+          <div className="rounded-lg bg-primary/5 p-4 sm:p-6">
             <div className="mb-2 text-sm font-medium text-muted-foreground">Amount to Pay</div>
-            <div className="text-4xl font-bold text-primary">{formatPrice(parseFloat(total))}</div>
+            <div className="text-3xl font-bold text-primary sm:text-4xl">{formatPrice(parseFloat(total))}</div>
           </div>
           <CardDescription className="pt-2">Select your preferred payment method below</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="knet" className="w-full" onValueChange={setActiveTab}>
-            <TabsList className="inline-flex h-10 w-full items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
-              <TabsTrigger value="knet" className="flex-1">
+            <TabsList className="grid h-10 w-full grid-cols-3 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
+              <TabsTrigger value="knet" className="text-xs sm:text-sm">
                 KNET
               </TabsTrigger>
-              <TabsTrigger value="card" className="flex-1">
+              <TabsTrigger value="card" className="text-xs sm:text-sm">
                 Credit Card
               </TabsTrigger>
-              <TabsTrigger value="paypal" className="flex-1">
+              <TabsTrigger value="paypal" className="text-xs sm:text-sm">
                 PayPal
               </TabsTrigger>
             </TabsList>
